@@ -5,12 +5,8 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Navbar from "@/components/Navbar";
 import BackgroundGrid from "@/components/BackgroundGrid";
 import AssetBrowser from "@/components/AssetBrowser";
-import SkinsView from "@/components/dashboard/SkinsView";
 import MapsView from "@/components/dashboard/MapsView";
 import ToolsView from "@/components/dashboard/ToolsView";
-import ChatView from "@/components/dashboard/ChatView";
-import DownloadsView from "@/components/dashboard/DownloadsView";
-import GalleryView from "@/components/dashboard/GalleryView";
 import SoundboardView from "@/components/dashboard/SoundboardView";
 import MusicView from "@/components/dashboard/MusicView";
 import SettingsView from "@/components/dashboard/SettingsView";
@@ -30,17 +26,8 @@ const NAV_SECTIONS = [
     label: "MODDING",
     items: [
       { icon: "📦", name: "Assets", id: "assets" },
-      { icon: "👤", name: "Skin Mods", id: "skins" },
       { icon: "🗺️", name: "Map Mods", id: "maps" },
       { icon: "🔧", name: "Server Tools", id: "tools" },
-    ],
-  },
-  {
-    label: "COMMUNITY",
-    items: [
-      { icon: "💬", name: "Chat", id: "chat" },
-      { icon: "📁", name: "Downloads", id: "downloads" },
-      { icon: "🖼️", name: "Gallery", id: "gallery" },
     ],
   },
   {
@@ -250,12 +237,8 @@ export default function DashboardPage() {
   function renderView(view: string) {
     switch (view) {
       case "assets": return <AssetBrowser />;
-      case "skins": return <SkinsView />;
       case "maps": return <MapsView />;
       case "tools": return <ToolsView />;
-      case "chat": return <ChatView />;
-      case "downloads": return <DownloadsView />;
-      case "gallery": return <GalleryView />;
       case "soundboard": return <SoundboardView />;
       case "music": return <MusicView />;
       case "settings": return <SettingsView />;
