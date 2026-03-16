@@ -82,34 +82,33 @@ export default function Home() {
       </div>
 
       {/* ── Pill navbar ── */}
-      <nav className="pill-nav">
-        <Link href="/" className="nav-logo">
-          Crystal<span className="accent">line</span>
-        </Link>
-        <div className="nav-sep" />
-        <a
-          href="https://discord.gg/crystaliline"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="nav-link"
-        >
-          Discord
-        </a>
-        <a
-          href="https://github.com/skids-zj71"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="nav-link"
-        >
-          GitHub
-        </a>
-        <Link href="/about" className="nav-link hide-mobile">
-          About
-        </Link>
-        <Link href="/community" className="nav-link hide-mobile">
-          Community
-        </Link>
-      </nav>
+      <header className="pill-header">
+        <nav className="pill-nav">
+          <div className="nav-logo">
+            <Link href="/" className="nav-logo-link">
+              Crystal<span className="accent">line</span>
+            </Link>
+          </div>
+          <ul className="nav-links">
+            <li>
+              <a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer">
+                Discord
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+            </li>
+            <li className="hide-mobile">
+              <Link href="/about">About</Link>
+            </li>
+            <li className="hide-mobile">
+              <Link href="/community">Community</Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
 
       {/* ── Hero ── */}
       <div className="hero">
