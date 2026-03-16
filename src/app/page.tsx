@@ -1,165 +1,135 @@
 "use client";
 
-import { motion } from "framer-motion";
-import GlassCard from "@/components/GlassCard";
+import { useMemo } from "react";
+import Link from "next/link";
 
-const features = [
-  {
-    icon: "🔧",
-    title: "Custom Modifications",
-    desc: "Add or change virtually anything in your OG Fortnite server project — from cosmetics and skins to gameplay mechanics, weapons, and map elements. Full creative control at your fingertips.",
-  },
-  {
-    icon: "🔗",
-    title: "Tool Integration",
-    desc: "Seamlessly connects with popular OG Fortnite server tools and frameworks. One central hub that links your entire modding workflow together without the hassle of juggling separate utilities.",
-  },
-  {
-    icon: "👥",
-    title: "Community Driven",
-    desc: "Built by modders, for modders. Join a growing community of OG Fortnite enthusiasts who share mods, collaborate on projects, and push the boundaries of what's possible.",
-  },
-  {
-    icon: "📂",
-    title: "Open Source",
-    desc: "Crystaliline is fully open source. Inspect the code, contribute features, submit bug fixes, or fork it to build your own custom version. Transparency and collaboration at the core.",
-  },
-];
+// Generate diverse crystal-like gradient cards
+function generateCardGradients(count: number): string[] {
+  const palettes = [
+    "linear-gradient(135deg, #3d2200 0%, #CC6B00 50%, #1a0f00 100%)",
+    "linear-gradient(135deg, #1a0f00 0%, #FF8C00 40%, #2a1500 100%)",
+    "linear-gradient(225deg, #0d0800 0%, #b35e00 50%, #331a00 100%)",
+    "radial-gradient(ellipse at 30% 20%, #CC6B00 0%, #1a0f00 60%, #000 100%)",
+    "radial-gradient(ellipse at 70% 80%, #FF8C00 0%, #2a1500 50%, #0a0500 100%)",
+    "radial-gradient(circle at 50% 50%, #b35e00 0%, #1a0f00 70%)",
+    "radial-gradient(ellipse at 20% 70%, #e07800 0%, #0d0800 60%)",
+    "linear-gradient(60deg, #000 0%, #CC6B00 30%, #000 35%, #FF8C00 65%, #000 70%)",
+    "linear-gradient(120deg, #1a0f00 0%, #e07800 25%, #0d0800 50%, #CC6B00 75%, #1a0f00 100%)",
+    "linear-gradient(45deg, #0a0500 0%, #FF8C00 20%, #1a0f00 40%, #b35e00 60%, #0a0500 80%)",
+    "linear-gradient(180deg, #2a1f00 0%, #d4a017 50%, #1a1200 100%)",
+    "linear-gradient(0deg, #0d0a00 0%, #c89a1d 40%, #2a1f00 100%)",
+    "radial-gradient(ellipse at 40% 30%, #d4a017 0%, #1a1200 55%, #000 100%)",
+    "linear-gradient(135deg, #0a0500 0%, #4d2e00 30%, #0a0500 60%, #331a00 100%)",
+    "linear-gradient(160deg, #1a0f00 0%, #663c00 40%, #0d0800 80%)",
+    "linear-gradient(135deg, #FF8C00 0%, #CC6B00 30%, #993f00 60%, #1a0f00 100%)",
+    "radial-gradient(ellipse at 80% 20%, #FF8C00 0%, #663c00 40%, #0a0500 100%)",
+    "linear-gradient(200deg, #0d0800 0%, #FF8C00 35%, #CC6B00 65%, #0a0500 100%)",
+    "linear-gradient(135deg, #1a1200 0%, #332200 50%, #0d0a00 100%)",
+    "linear-gradient(45deg, #0d0800 0%, #261700 30%, #1a0f00 60%, #331a00 100%)",
+    "radial-gradient(circle at 60% 40%, #4d2e00 0%, #0d0800 80%)",
+    "linear-gradient(135deg, #000 0%, #993f00 20%, #000 40%, #CC6B00 60%, #000 80%, #663c00 100%)",
+    "linear-gradient(90deg, #1a0f00 0%, #FF8C00 15%, #0a0500 30%, #CC6B00 50%, #0d0800 70%, #b35e00 85%, #1a0f00 100%)",
+    "conic-gradient(from 45deg at 50% 50%, #0a0500, #CC6B00, #0a0500, #FF8C00, #0a0500)",
+    "conic-gradient(from 180deg at 30% 70%, #1a0f00, #b35e00, #0d0800, #993f00, #1a0f00)",
+    "linear-gradient(135deg, #0d0800 0%, #CC6B00 50%, #1a0f00 51%, #FF8C00 100%)",
+    "radial-gradient(ellipse at 10% 90%, #e07800 0%, #1a0f00 40%, #0a0500 100%)",
+    "linear-gradient(270deg, #0a0500 0%, #663c00 30%, #FF8C00 50%, #663c00 70%, #0a0500 100%)",
+    "radial-gradient(ellipse at 90% 10%, #CC6B00 0%, #331a00 50%, #000 100%)",
+    "linear-gradient(150deg, #2a1500 0%, #e07800 35%, #1a0f00 70%, #993f00 100%)",
+  ];
+  const result: string[] = [];
+  for (let i = 0; i < count; i++) {
+    result.push(palettes[i % palettes.length]);
+  }
+  return result;
+}
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.6,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
-};
+const CARDS_PER_COL = 12;
+const NUM_COLS = 7;
 
 export default function Home() {
+  const columns = useMemo(() => {
+    const allGradients = generateCardGradients(NUM_COLS * CARDS_PER_COL);
+    const cols: string[][] = [];
+    for (let c = 0; c < NUM_COLS; c++) {
+      const cards: string[] = [];
+      for (let r = 0; r < CARDS_PER_COL; r++) {
+        cards.push(allGradients[(c * CARDS_PER_COL + r) % allGradients.length]);
+      }
+      cols.push(cards);
+    }
+    return cols;
+  }, []);
+
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="px-6 pt-24 pb-32 text-center max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="glow-pulse inline-block"
-        >
-          <h1 className="text-6xl sm:text-7xl md:text-8xl font-extrabold shimmer tracking-tight leading-none">
-            Crystaliline
-          </h1>
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-xl md:text-2xl text-white/70 mt-8 font-medium"
-        >
-          The Modern Modding Tool for OG Fortnite
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.45 }}
-          className="text-base md:text-lg text-white/40 mt-4 max-w-xl mx-auto"
-        >
-          More customizability. More control. More power.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <a
-            href="https://github.com/skids-zj71"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-3.5 rounded-xl text-base font-bold gradient-bg text-black hover:opacity-90 transition-all hover:scale-105 hover:shadow-[0_8px_30px_rgba(255,140,0,0.3)]"
-          >
-            View on GitHub →
-          </a>
-          <a
-            href="/community"
-            className="px-8 py-3.5 rounded-xl text-base font-medium glass glass-hover text-white/70 hover:text-white transition-all"
-          >
-            Join the Community
-          </a>
-        </motion.div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="px-6 pb-32 max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4">
-            Everything You Need
-          </h2>
-          <p className="text-white/50 max-w-2xl mx-auto text-lg">
-            Crystaliline gives you the tools to take full control of your OG Fortnite server project.
-          </p>
-        </motion.div>
-
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          {features.map((feature) => (
-            <motion.div key={feature.title} variants={item}>
-              <GlassCard>
-                <div className="text-3xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                <p className="text-white/50 leading-relaxed">{feature.desc}</p>
-              </GlassCard>
-            </motion.div>
+    <div className="landing-root">
+      {/* ── Background grid ── */}
+      <div className="bg-grid-wrap">
+        <div className="bg-grid">
+          {columns.map((cards, ci) => (
+            <div className="bg-col" key={ci}>
+              {[...cards, ...cards].map((grad, ri) => (
+                <div
+                  className="bg-card"
+                  key={ri}
+                  style={{ background: grad }}
+                />
+              ))}
+            </div>
           ))}
-        </motion.div>
-      </section>
+        </div>
+        <div className="bg-overlay" />
+      </div>
 
-      {/* Bottom CTA */}
-      <section className="px-6 pb-32 max-w-3xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="glass p-10 md:p-14"
+      {/* ── Pill navbar ── */}
+      <nav className="pill-nav">
+        <Link href="/" className="nav-logo">
+          Crystal<span className="accent">line</span>
+        </Link>
+        <div className="nav-sep" />
+        <a
+          href="https://discord.gg/crystaliline"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nav-link"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to mod?
-          </h2>
-          <p className="text-white/50 text-lg mb-8 max-w-md mx-auto">
-            Dive into the source, explore the tools, and start building your perfect OG Fortnite experience.
+          Discord
+        </a>
+        <a
+          href="https://github.com/skids-zj71"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nav-link"
+        >
+          GitHub
+        </a>
+        <Link href="/about" className="nav-link hide-mobile">
+          About
+        </Link>
+        <Link href="/community" className="nav-link hide-mobile">
+          Community
+        </Link>
+      </nav>
+
+      {/* ── Hero ── */}
+      <div className="hero">
+        <div className="hero-content">
+          <h1>
+            Crystal<span className="gradient">line</span>
+          </h1>
+          <p className="subtitle">
+            The modern modding tool for OG Fortnite servers.
           </p>
           <a
-            href="https://github.com/skids-zj71"
+            href="https://discord.gg/crystaliline"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3.5 rounded-xl text-base font-bold gradient-bg text-black hover:opacity-90 transition-all hover:scale-105 hover:shadow-[0_8px_30px_rgba(255,140,0,0.3)]"
+            className="cta"
           >
-            Get Started on GitHub →
+            DOWNLOAD
           </a>
-        </motion.div>
-      </section>
+        </div>
+      </div>
     </div>
   );
 }
