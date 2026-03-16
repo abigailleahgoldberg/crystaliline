@@ -1,0 +1,41 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import CrystalBackground from "@/components/CrystalBackground";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Crystaliline — The Modern Modding Tool for OG Fortnite",
+  description:
+    "More customizability. More control. More power. The modern modding tool for OG Fortnite servers.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <CrystalBackground />
+        <Navbar />
+        <main className="relative z-10 pt-20">{children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
+}
