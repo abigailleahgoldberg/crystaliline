@@ -17,33 +17,33 @@ const NAV_SECTIONS = [
     ],
   },
   {
-    label: "EXPORT",
+    label: "MODDING",
     items: [
       { icon: "📦", name: "Assets", id: "assets" },
-      { icon: "📁", name: "Files", id: "files" },
-      { icon: "🗺️", name: "Map", id: "map" },
-      { icon: "🎵", name: "Music", id: "music" },
+      { icon: "👤", name: "Skin Mods", id: "skins" },
+      { icon: "🗺️", name: "Map Mods", id: "maps" },
+      { icon: "🔧", name: "Server Tools", id: "tools" },
     ],
   },
   {
-    label: "ONLINE",
+    label: "COMMUNITY",
     items: [
       { icon: "💬", name: "Chat", id: "chat" },
-      { icon: "🏆", name: "Leaderboard", id: "leaderboard" },
+      { icon: "📁", name: "Downloads", id: "downloads" },
+      { icon: "🖼️", name: "Gallery", id: "gallery" },
+    ],
+  },
+  {
+    label: "AUDIO",
+    items: [
+      { icon: "🔊", name: "Sound Board", id: "soundboard" },
+      { icon: "🎵", name: "Music", id: "music" },
     ],
   },
   {
     label: "SETTINGS",
     items: [
-      { icon: "🔌", name: "Plugin", id: "plugins" },
-      { icon: "📤", name: "Export Options", id: "export" },
-      { icon: "⚙️", name: "App Settings", id: "settings" },
-    ],
-  },
-  {
-    label: "INFO",
-    items: [
-      { icon: "🖥️", name: "Console", id: "console" },
+      { icon: "⚙️", name: "Settings", id: "settings" },
       { icon: "❓", name: "Help", id: "help" },
     ],
   },
@@ -100,6 +100,7 @@ const SOCIAL_LINKS = [
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
+  const [activeView, setActiveView] = useState("home");
 
   /* Loading */
   if (status === "loading") {
@@ -163,9 +164,6 @@ export default function DashboardPage() {
       </div>
     );
   }
-
-  /* Active view state */
-  const [activeView, setActiveView] = useState("home");
 
   /* Build avatar URL */
   const user = session.user;
