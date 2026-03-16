@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const FAQ = [
   {
@@ -48,7 +49,13 @@ export default function HelpView() {
           <div key={i} className={`view-faq-item${openIndex === i ? " open" : ""}`}>
             <button className="view-faq-question" onClick={() => toggle(i)}>
               <span>{item.q}</span>
-              <span className="view-faq-arrow">{openIndex === i ? "−" : "+"}</span>
+              <span className="view-faq-arrow">
+                {openIndex === i ? (
+                  <ChevronUp size={20} color="#FF8C00" />
+                ) : (
+                  <ChevronDown size={20} color="#8888A0" />
+                )}
+              </span>
             </button>
             {openIndex === i && (
               <div className="view-faq-answer">

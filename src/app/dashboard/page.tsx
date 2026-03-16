@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import {
+  Home, Newspaper, Package, Map, Wrench, Volume2, Music,
+  Settings, HelpCircle, Gamepad2, Github, Users, Globe, Link, Lock
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import BackgroundGrid from "@/components/BackgroundGrid";
 import AssetBrowser from "@/components/AssetBrowser";
@@ -14,34 +18,46 @@ import HelpView from "@/components/dashboard/HelpView";
 
 const REQUIRED_ROLE = "1482915649142653080";
 
+const ICON_MAP: Record<string, React.ComponentType<{size?: number; color?: string}>> = {
+  home: Home,
+  newspaper: Newspaper,
+  package: Package,
+  map: Map,
+  wrench: Wrench,
+  volume2: Volume2,
+  music: Music,
+  settings: Settings,
+  "help-circle": HelpCircle,
+};
+
 const NAV_SECTIONS = [
   {
     label: "GENERAL",
     items: [
-      { icon: "🏠", name: "Home", id: "home" },
-      { icon: "📰", name: "News & Updates", id: "news" },
+      { icon: "home", name: "Home", id: "home" },
+      { icon: "newspaper", name: "News & Updates", id: "news" },
     ],
   },
   {
     label: "MODDING",
     items: [
-      { icon: "📦", name: "Assets", id: "assets" },
-      { icon: "🗺️", name: "Map Mods", id: "maps" },
-      { icon: "🔧", name: "Server Tools", id: "tools" },
+      { icon: "package", name: "Assets", id: "assets" },
+      { icon: "map", name: "Map Mods", id: "maps" },
+      { icon: "wrench", name: "Server Tools", id: "tools" },
     ],
   },
   {
     label: "AUDIO",
     items: [
-      { icon: "🔊", name: "Sound Board", id: "soundboard" },
-      { icon: "🎵", name: "Music", id: "music" },
+      { icon: "volume2", name: "Sound Board", id: "soundboard" },
+      { icon: "music", name: "Music", id: "music" },
     ],
   },
   {
     label: "SETTINGS",
     items: [
-      { icon: "⚙️", name: "Settings", id: "settings" },
-      { icon: "❓", name: "Help", id: "help" },
+      { icon: "settings", name: "Settings", id: "settings" },
+      { icon: "help-circle", name: "Help", id: "help" },
     ],
   },
 ];
@@ -88,11 +104,18 @@ const FEATURED_CARDS = [
   },
 ];
 
+const SOCIAL_ICON_MAP: Record<string, React.ComponentType<{size?: number; color?: string}>> = {
+  discord: Gamepad2,
+  github: Github,
+  community: Users,
+  website: Globe,
+};
+
 const SOCIAL_LINKS = [
-  { icon: "🎮", label: "Discord", href: "https://discord.gg/crystaliline" },
-  { icon: "📦", label: "GitHub", href: "https://github.com/crystaliline" },
-  { icon: "👥", label: "Community", href: "/community" },
-  { icon: "🌐", label: "Website", href: "/" },
+  { iconKey: "discord", label: "Discord", href: "https://discord.gg/crystaliline" },
+  { iconKey: "github", label: "GitHub", href: "https://github.com/crystaliline" },
+  { iconKey: "community", label: "Community", href: "/community" },
+  { iconKey: "website", label: "Website", href: "/" },
 ];
 
 export default function DashboardPage() {
@@ -117,7 +140,7 @@ export default function DashboardPage() {
   if (!session) {
     return (
       <div className="landing-root">
-        
+
         <Navbar />
         <div className="hero">
           <div className="hero-content">
@@ -139,11 +162,13 @@ export default function DashboardPage() {
   if (!hasAccess) {
     return (
       <div className="landing-root">
-        
+
         <Navbar />
         <div className="hero">
           <div className="hero-content">
-            <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🔒</div>
+            <div style={{ fontSize: "3rem", marginBottom: "1rem", display: "flex", justifyContent: "center" }}>
+              <Lock size={48} color="#FF8C00" />
+            </div>
             <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Access <span className="gradient">Denied</span></h1>
             <p className="subtitle" style={{ maxWidth: "420px", margin: "0.5rem auto 2rem" }}>
               You need the Crystaliline role to access the dashboard. Join our Discord server to get the role.
@@ -181,18 +206,21 @@ export default function DashboardPage() {
           <span className="gradient-text">line</span>
         </h1>
         <div className="social-pills">
-          {SOCIAL_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target={link.href.startsWith("http") ? "_blank" : undefined}
-              rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="social-pill"
-            >
-              <span>{link.icon}</span>
-              {link.label}
-            </a>
-          ))}
+          {SOCIAL_LINKS.map((link) => {
+            const SocialIcon = SOCIAL_ICON_MAP[link.iconKey];
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="social-pill"
+              >
+                {SocialIcon && <SocialIcon size={16} />}
+                {link.label}
+              </a>
+            );
+          })}
         </div>
       </div>
       <section className="dashboard-section">
@@ -226,7 +254,7 @@ export default function DashboardPage() {
                 <h3 className="featured-card-title">{card.title}</h3>
                 <p className="featured-card-author">by {card.author}</p>
               </div>
-              <span className="featured-card-link">🔗</span>
+              <span className="featured-card-link"><Link size={18} color="#8888A0" /></span>
             </div>
           ))}
         </div>
@@ -268,16 +296,21 @@ export default function DashboardPage() {
           {NAV_SECTIONS.map((section) => (
             <div key={section.label} className="sidebar-section">
               <span className="sidebar-section-label">{section.label}</span>
-              {section.items.map((item) => (
-                <button
-                  key={item.id}
-                  className={`sidebar-item${item.id === activeView ? " active" : ""}`}
-                  onClick={() => setActiveView(item.id)}
-                >
-                  <span className="sidebar-item-icon">{item.icon}</span>
-                  {item.name}
-                </button>
-              ))}
+              {section.items.map((item) => {
+                const IconComponent = ICON_MAP[item.icon];
+                return (
+                  <button
+                    key={item.id}
+                    className={`sidebar-item${item.id === activeView ? " active" : ""}`}
+                    onClick={() => setActiveView(item.id)}
+                  >
+                    <span className="sidebar-item-icon">
+                      {IconComponent && <IconComponent size={18} />}
+                    </span>
+                    {item.name}
+                  </button>
+                );
+              })}
             </div>
           ))}
         </nav>

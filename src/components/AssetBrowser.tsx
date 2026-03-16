@@ -1,31 +1,55 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  User, Backpack, Hammer, Umbrella, PawPrint, Dice1,
+  Smile, Paintbrush, Flag, Image, PersonStanding, Bot,
+  Guitar, Piano, Car
+} from "lucide-react";
 
 /* ── Category definitions ── */
+
+const ICON_MAP: Record<string, React.ComponentType<{size?: number; color?: string}>> = {
+  user: User,
+  backpack: Backpack,
+  hammer: Hammer,
+  umbrella: Umbrella,
+  pawprint: PawPrint,
+  dice: Dice1,
+  smile: Smile,
+  paintbrush: Paintbrush,
+  flag: Flag,
+  image: Image,
+  personstanding: PersonStanding,
+  bot: Bot,
+  guitar: Guitar,
+  piano: Piano,
+  car: Car,
+};
+
 const COSMETIC_CATEGORIES = [
-  { icon: "👤", name: "Outfits", filter: "outfit" },
-  { icon: "🎒", name: "Backpacks", filter: "backpack" },
-  { icon: "⛏️", name: "Pickaxes", filter: "pickaxe" },
-  { icon: "🪂", name: "Gliders", filter: "glider" },
-  { icon: "🐾", name: "Pets", filter: "pet" },
-  { icon: "🧸", name: "Toys", filter: "toy" },
-  { icon: "😀", name: "Emoticons", filter: "emoji" },
-  { icon: "🎨", name: "Sprays", filter: "spray" },
-  { icon: "🏳️", name: "Banners", filter: "banner" },
-  { icon: "🖼️", name: "Loading Screens", filter: "loadingscreen" },
-  { icon: "💃", name: "Emotes", filter: "emote" },
-  { icon: "🤖", name: "Sidekicks", filter: "sidekick" },
+  { iconKey: "user", name: "Outfits", filter: "outfit" },
+  { iconKey: "backpack", name: "Backpacks", filter: "backpack" },
+  { iconKey: "hammer", name: "Pickaxes", filter: "pickaxe" },
+  { iconKey: "umbrella", name: "Gliders", filter: "glider" },
+  { iconKey: "pawprint", name: "Pets", filter: "pet" },
+  { iconKey: "dice", name: "Toys", filter: "toy" },
+  { iconKey: "smile", name: "Emoticons", filter: "emoji" },
+  { iconKey: "paintbrush", name: "Sprays", filter: "spray" },
+  { iconKey: "flag", name: "Banners", filter: "banner" },
+  { iconKey: "image", name: "Loading Screens", filter: "loadingscreen" },
+  { iconKey: "personstanding", name: "Emotes", filter: "emote" },
+  { iconKey: "bot", name: "Sidekicks", filter: "sidekick" },
 ];
 
 const FESTIVAL_CATEGORIES = [
-  { icon: "🎸", name: "Guitars", filter: "__instrument_guitar" },
-  { icon: "🎸", name: "Basses", filter: "__instrument_bass" },
-  { icon: "🎹", name: "Keytars", filter: "__instrument_keytar" },
+  { iconKey: "guitar", name: "Guitars", filter: "__instrument_guitar" },
+  { iconKey: "guitar", name: "Basses", filter: "__instrument_bass" },
+  { iconKey: "piano", name: "Keytars", filter: "__instrument_keytar" },
 ];
 
 const VEHICLES_CATEGORIES = [
-  { icon: "🚗", name: "Vehicles", filter: "__cars" },
+  { iconKey: "car", name: "Vehicles", filter: "__cars" },
 ];
 
 const SECTIONS = [
@@ -162,16 +186,21 @@ export default function AssetBrowser() {
         {SECTIONS.map((section) => (
           <div key={section.label} className="asset-category-section">
             <span className="asset-category-header">{section.label}</span>
-            {section.categories.map((cat) => (
-              <button
-                key={cat.filter}
-                className={`asset-category-item${activeCategory === cat.filter ? " active" : ""}`}
-                onClick={() => setActiveCategory(cat.filter)}
-              >
-                <span className="asset-category-icon">{cat.icon}</span>
-                {cat.name}
-              </button>
-            ))}
+            {section.categories.map((cat) => {
+              const CatIcon = ICON_MAP[cat.iconKey];
+              return (
+                <button
+                  key={cat.filter}
+                  className={`asset-category-item${activeCategory === cat.filter ? " active" : ""}`}
+                  onClick={() => setActiveCategory(cat.filter)}
+                >
+                  <span className="asset-category-icon">
+                    {CatIcon && <CatIcon size={18} />}
+                  </span>
+                  {cat.name}
+                </button>
+              );
+            })}
           </div>
         ))}
       </div>

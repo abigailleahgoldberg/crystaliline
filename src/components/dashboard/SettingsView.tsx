@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
+import { User, Palette, Bell, Download, Wrench, Info } from "lucide-react";
 
 interface Settings {
   theme: "dark" | "midnight" | "oled";
@@ -76,7 +77,10 @@ export default function SettingsView() {
 
       {/* ACCOUNT */}
       <div className="settings-section">
-        <h3 className="settings-header">Account</h3>
+        <h3 className="settings-header">
+          <User size={20} color="#FF8C00" style={{ marginRight: "0.5rem", verticalAlign: "middle" }} />
+          Account
+        </h3>
         <div className="settings-separator" />
         <div className="settings-account-card">
           {user ? (
@@ -105,7 +109,10 @@ export default function SettingsView() {
 
       {/* APPEARANCE */}
       <div className="settings-section">
-        <h3 className="settings-header">Appearance</h3>
+        <h3 className="settings-header">
+          <Palette size={20} color="#FF8C00" style={{ marginRight: "0.5rem", verticalAlign: "middle" }} />
+          Appearance
+        </h3>
         <div className="settings-separator" />
         <div className="settings-toggle-row">
           <span className="settings-toggle-label">Theme</span>
@@ -140,7 +147,10 @@ export default function SettingsView() {
 
       {/* NOTIFICATIONS */}
       <div className="settings-section">
-        <h3 className="settings-header">Notifications</h3>
+        <h3 className="settings-header">
+          <Bell size={20} color="#FF8C00" style={{ marginRight: "0.5rem", verticalAlign: "middle" }} />
+          Notifications
+        </h3>
         <div className="settings-separator" />
         {([
           ["notifyNews", "News Updates"],
@@ -160,7 +170,10 @@ export default function SettingsView() {
 
       {/* DOWNLOADS */}
       <div className="settings-section">
-        <h3 className="settings-header">Downloads</h3>
+        <h3 className="settings-header">
+          <Download size={20} color="#FF8C00" style={{ marginRight: "0.5rem", verticalAlign: "middle" }} />
+          Downloads
+        </h3>
         <div className="settings-separator" />
         <div className="settings-toggle-row">
           <span className="settings-toggle-label">Download Location</span>
@@ -189,7 +202,10 @@ export default function SettingsView() {
 
       {/* ADVANCED */}
       <div className="settings-section">
-        <h3 className="settings-header">Advanced</h3>
+        <h3 className="settings-header">
+          <Wrench size={20} color="#FF8C00" style={{ marginRight: "0.5rem", verticalAlign: "middle" }} />
+          Advanced
+        </h3>
         <div className="settings-separator" />
         <div className="settings-btn-row">
           <button className="settings-btn" onClick={clearCache}>Clear Cache</button>
@@ -207,7 +223,10 @@ export default function SettingsView() {
 
       {/* ABOUT */}
       <div className="settings-section">
-        <h3 className="settings-header">About</h3>
+        <h3 className="settings-header">
+          <Info size={20} color="#FF8C00" style={{ marginRight: "0.5rem", verticalAlign: "middle" }} />
+          About
+        </h3>
         <div className="settings-separator" />
         <p className="settings-version-text">Crystaliline v1.0.0</p>
         <p className="settings-version-text">Build: March 2026</p>
