@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
+import Navbar from "@/components/Navbar";
 
 const REQUIRED_ROLE = "1482915649142653080";
 
@@ -13,7 +14,7 @@ const NAV_SECTIONS = [
     ],
   },
   {
-    label: "TOOLS",
+    label: "EXPORT",
     items: [
       { icon: "📦", name: "Assets", id: "assets" },
       { icon: "📁", name: "Files", id: "files" },
@@ -31,7 +32,7 @@ const NAV_SECTIONS = [
   {
     label: "SETTINGS",
     items: [
-      { icon: "🔌", name: "Plugins", id: "plugins" },
+      { icon: "🔌", name: "Plugin", id: "plugins" },
       { icon: "📤", name: "Export Options", id: "export" },
       { icon: "⚙️", name: "App Settings", id: "settings" },
     ],
@@ -51,30 +52,45 @@ const NEWS_CARDS = [
     date: "Mar 15",
     title: "Release v1.0.0",
     desc: "Crystaliline is now available!",
+    gradient: "linear-gradient(135deg, #2A1800 0%, #CC6B00 40%, #FF8C00 70%, #FFB347 100%)",
   },
   {
     tag: "NEWS",
     date: "Mar 15",
     title: "Community Launch",
     desc: "Join the growing Crystaliline community!",
+    gradient: "linear-gradient(160deg, #1A0E00 0%, #8B4500 35%, #E07800 65%, #FF8C00 100%)",
   },
   {
     tag: "NEWS",
     date: "Mar 14",
     title: "Open Source",
     desc: "Crystaliline is now fully open source!",
+    gradient: "linear-gradient(145deg, #3D2200 0%, #B85C00 30%, #FFB347 60%, #CC6B00 100%)",
   },
 ];
 
 const FEATURED_CARDS = [
-  { title: "Crystal Loader", author: "ZJ" },
-  { title: "Skin Swapper", author: "Community" },
-  { title: "Map Editor", author: "Contributors" },
+  {
+    title: "Crystal Loader",
+    author: "ZJ",
+    gradient: "linear-gradient(130deg, #1F1200 0%, #A35800 40%, #FF8C00 80%, #3D2200 100%)",
+  },
+  {
+    title: "Skin Swapper",
+    author: "Community",
+    gradient: "linear-gradient(155deg, #2A1800 0%, #CC6B00 50%, #FFB347 90%)",
+  },
+  {
+    title: "Map Editor",
+    author: "Contributors",
+    gradient: "linear-gradient(170deg, #3D2200 0%, #E07800 45%, #FF8C00 75%, #1A0E00 100%)",
+  },
 ];
 
 const SOCIAL_LINKS = [
-  { icon: "💬", label: "Discord", href: "https://discord.gg/crystaliline" },
-  { icon: "🐙", label: "GitHub", href: "https://github.com/crystaliline" },
+  { icon: "🎮", label: "Discord", href: "https://discord.gg/crystaliline" },
+  { icon: "📦", label: "GitHub", href: "https://github.com/crystaliline" },
   { icon: "👥", label: "Community", href: "/community" },
   { icon: "🌐", label: "Website", href: "/" },
 ];
@@ -103,19 +119,7 @@ export default function DashboardPage() {
         <div className="bg-grid-wrap">
           <div className="bg-overlay" />
         </div>
-        <header className="pill-header">
-          <nav className="pill-nav">
-            <div className="nav-logo">
-              <a href="/" className="nav-logo-link">Crystal<span className="accent">line</span></a>
-            </div>
-            <ul className="nav-links">
-              <li><a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer">Discord</a></li>
-              <li><a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-              <li className="hide-mobile"><a href="/about">About</a></li>
-              <li className="hide-mobile"><a href="/community">Community</a></li>
-            </ul>
-          </nav>
-        </header>
+        <Navbar />
         <div className="hero">
           <div className="hero-content">
             <h1>Crystal<span className="gradient">line</span></h1>
@@ -139,17 +143,7 @@ export default function DashboardPage() {
         <div className="bg-grid-wrap">
           <div className="bg-overlay" />
         </div>
-        <header className="pill-header">
-          <nav className="pill-nav">
-            <div className="nav-logo">
-              <a href="/" className="nav-logo-link">Crystal<span className="accent">line</span></a>
-            </div>
-            <ul className="nav-links">
-              <li><a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer">Discord</a></li>
-              <li><a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-            </ul>
-          </nav>
-        </header>
+        <Navbar />
         <div className="hero">
           <div className="hero-content">
             <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🔒</div>
@@ -184,22 +178,6 @@ export default function DashboardPage() {
 
   return (
     <div className="dashboard-wrapper">
-      {/* ── PILL NAV ── */}
-      <header className="pill-header">
-        <nav className="pill-nav">
-          <div className="nav-logo">
-            <a href="/" className="nav-logo-link">Crystal<span className="accent">line</span></a>
-          </div>
-          <ul className="nav-links">
-            <li><a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer">Discord</a></li>
-            <li><a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-            <li className="hide-mobile"><a href="/about">About</a></li>
-            <li className="hide-mobile"><a href="/community">Community</a></li>
-            <li className="hide-mobile"><a href="/dashboard" style={{ color: "#FFB347" }}>Dashboard</a></li>
-          </ul>
-        </nav>
-      </header>
-
       <div className="dashboard-layout">
       {/* ── SIDEBAR ── */}
       <aside className="dashboard-sidebar">
@@ -287,11 +265,11 @@ export default function DashboardPage() {
 
         {/* News & Updates */}
         <section className="dashboard-section">
-          <h2 className="dashboard-section-title">News & Updates</h2>
+          <h2 className="dashboard-section-title">News &amp; Updates</h2>
           <div className="news-grid">
             {NEWS_CARDS.map((card) => (
               <div key={card.title} className="news-card">
-                <div className="news-card-image" />
+                <div className="news-card-image" style={{ background: card.gradient }} />
                 <div className="news-card-body">
                   <div className="news-card-meta">
                     <span className={`card-tag ${card.tag === "UPDATE" ? "update" : "news"}`}>
@@ -314,11 +292,12 @@ export default function DashboardPage() {
           <div className="featured-grid">
             {FEATURED_CARDS.map((card) => (
               <div key={card.title} className="featured-card">
-                <div className="featured-card-image" />
+                <div className="featured-card-image" style={{ background: card.gradient }} />
                 <div className="featured-card-body">
                   <h3 className="featured-card-title">{card.title}</h3>
                   <p className="featured-card-author">by {card.author}</p>
                 </div>
+                <span className="featured-card-link">🔗</span>
               </div>
             ))}
           </div>

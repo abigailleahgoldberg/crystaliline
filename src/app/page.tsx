@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 // Generate diverse crystal-like gradient cards
 function generateCardGradients(count: number): string[] {
@@ -82,36 +83,7 @@ export default function Home() {
       </div>
 
       {/* ── Pill navbar ── */}
-      <header className="pill-header">
-        <nav className="pill-nav">
-          <div className="nav-logo">
-            <Link href="/" className="nav-logo-link">
-              Crystal<span className="accent">line</span>
-            </Link>
-          </div>
-          <ul className="nav-links">
-            <li>
-              <a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer">
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">
-                GitHub
-              </a>
-            </li>
-            <li className="hide-mobile">
-              <Link href="/about">About</Link>
-            </li>
-            <li className="hide-mobile">
-              <Link href="/community">Community</Link>
-            </li>
-            <li className="hide-mobile">
-              <Link href="/dashboard">Dashboard</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Navbar />
 
       {/* ── Hero ── */}
       <div className="hero">
