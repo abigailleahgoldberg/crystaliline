@@ -248,14 +248,14 @@ export default function AssetBrowser() {
                     {item.images.smallIcon || item.images.icon ? (
                       <img
                         src={(item.images.smallIcon || item.images.icon)!}
-                        alt={item.name}
+                        alt={String(item?.name || "Unknown")}
                         loading="lazy"
                       />
                     ) : (
                       <div className="asset-card-no-img">?</div>
                     )}
                   </div>
-                  <span className="asset-card-name">{item.name}</span>
+                  <span className="asset-card-name">{String(item?.name || "Unknown")}</span>
                 </div>
               ))}
             </div>
@@ -288,25 +288,25 @@ export default function AssetBrowser() {
             </div>
             <h2 className="asset-detail-name">{selectedItem.name}</h2>
             {selectedItem.description && (
-              <p className="asset-detail-desc">{selectedItem.description}</p>
+              <p className="asset-detail-desc">{String(selectedItem?.description || "")}</p>
             )}
             <div className="asset-detail-meta">
               <span className="asset-detail-tag">
-                {selectedItem.type.displayValue}
+                {String(selectedItem?.type?.displayValue || "")}
               </span>
               {selectedItem.rarity && (
                 <span className="asset-detail-tag">
-                  {selectedItem.rarity.displayValue}
+                  {String(selectedItem?.rarity?.displayValue || "")}
                 </span>
               )}
               {selectedItem.set && (
                 <span className="asset-detail-tag">
-                  {selectedItem.set.value}
+                  {String(selectedItem?.set?.value || "")}
                 </span>
               )}
               {selectedItem.introduction && (
                 <span className="asset-detail-tag">
-                  {selectedItem.introduction.text}
+                  {String(selectedItem?.introduction?.text || "")}
                 </span>
               )}
             </div>
