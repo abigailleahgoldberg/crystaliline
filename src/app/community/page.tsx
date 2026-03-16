@@ -1,3 +1,5 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import BackgroundGrid from "@/components/BackgroundGrid";
 import Link from "next/link";
@@ -23,10 +25,23 @@ export default function Community() {
           </p>
         </div>
 
-        {/* Discord Embed */}
+        {/* Live Discord Chat */}
         <div className="section">
-          <h2 className="section-title gradient-text">Join the Conversation</h2>
-          <p className="section-subtitle">Our Discord server is the heart of the Crystaliline community.</p>
+          <h2 className="section-title gradient-text">Live Chat</h2>
+          <p className="section-subtitle">Chat directly with the community — right from this page.</p>
+          <div className="discord-chat-embed">
+            <iframe
+              src="https://e.widgetbot.io/channels/1384979421231976658"
+              title="Discord Chat"
+              allow="clipboard-write; fullscreen"
+            />
+          </div>
+        </div>
+
+        {/* Discord Widget (member list) */}
+        <div className="section">
+          <h2 className="section-title gradient-text">Who&apos;s Online</h2>
+          <p className="section-subtitle">See who&apos;s active in the Discord right now.</p>
           <div className="discord-embed">
             <iframe
               src="https://discord.com/widget?id=1384979421231976658&theme=dark"
@@ -82,7 +97,7 @@ export default function Community() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cta-link"
-                style={{ marginTop: "1rem" }}
+                style={{ marginTop: "1rem", display: "inline-block" }}
               >
                 View on GitHub →
               </a>
@@ -95,7 +110,7 @@ export default function Community() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cta-link"
-                style={{ marginTop: "1rem" }}
+                style={{ marginTop: "1rem", display: "inline-block" }}
               >
                 Join Discord →
               </a>
@@ -113,7 +128,7 @@ export default function Community() {
               <Link href="/community">Community</Link>
               <a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
-            <div className="footer-copy">© 2025 Crystaliline. Built for the OG Fortnite community.</div>
+            <div className="footer-copy">© {new Date().getFullYear()} Crystaliline. Built for the OG Fortnite community.</div>
           </div>
         </footer>
       </div>
