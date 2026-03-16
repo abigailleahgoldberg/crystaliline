@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import Link from "next/link";
 
 export default function AuthButton() {
@@ -10,34 +10,30 @@ export default function AuthButton() {
     return <span className="auth-button-loading" />;
   }
 
+  // Logged in: show avatar + name linking to dashboard
   if (session?.user) {
     const avatarUrl = session.user.discordId && session.user.avatar
       ? `https://cdn.discordapp.com/avatars/${session.user.discordId}/${session.user.avatar}.png?size=64`
       : null;
 
     return (
-      <div className="auth-button-signed-in">
-        <Link href="/dashboard" className="auth-user-link">
-          {avatarUrl ? (
-            <img
-              src={avatarUrl}
-              alt=""
-              className="auth-avatar"
-            />
-          ) : (
-            <span className="auth-avatar-fallback">
-              {session.user.name?.[0] || "?"}
-            </span>
-          )}
-          <span className="auth-username">{session.user.name}</span>
-        </Link>
-      </div>
+      <Link href="/dashboard" className="auth-user-link">
+        {avatarUrl ? (
+          <img src={avatarUrl} alt="" className="auth-avatar" />
+        ) : (
+          <span className="auth-avatar-fallback">
+            {session.user.name?.[0] || "?"}
+          </span>
+        )}
+        <span className="auth-username">{session.user.name}</span>
+      </Link>
     );
   }
 
+  // Not logged in: show "Login" that goes to dashboard (which has the login flow)
   return (
-    <button onClick={() => signIn("discord")} className="auth-login-link">
+    <Link href="/dashboard" className="auth-login-link">
       Login
-    </button>
+    </Link>
   );
 }
