@@ -16,7 +16,7 @@ export default function GlassCard({ children, className = "", delay = 0 }: Glass
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay, ease: "easeOut" }}
       whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-      className={`glass glass-hover p-6 ${className}`}
+      className={`glass glass-hover p-8 rounded-2xl ${className}`}
     >
       {children}
     </motion.div>

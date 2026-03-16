@@ -44,7 +44,8 @@ html, body {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  background: #0a0a0a;
+  background: #000;
+  font-family: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 }
 
 /* ── Floating pill navbar ── */
@@ -98,7 +99,6 @@ html, body {
 }
 
 .nav-links {
-  display: flex;
   gap: 2rem;
   list-style: none;
   align-items: center;
@@ -113,6 +113,36 @@ html, body {
 }
 
 .nav-links a:hover {
+  color: #fff;
+}
+
+/* Mobile nav dropdown */
+.mobile-nav-dropdown {
+  margin-top: 0.5rem;
+  background: linear-gradient(0deg, #121214 0%, #18191B 100%);
+  border-radius: 1rem;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  box-shadow:
+    inset 0 1px 2px -1px rgba(255,255,255,0.15),
+    0 4px 12px rgba(0,0,0,0.4);
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  color: #a1a1aa;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.mobile-nav-link:hover {
+  background: rgba(255,255,255,0.05);
   color: #fff;
 }
 
@@ -171,6 +201,13 @@ html, body {
   background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
+}
+
+/* Darker overlay for sub-pages so text is readable over scrolling cards */
+.bg-overlay-dark {
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.95) 100%);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
 
 /* ── Hero ── */
@@ -353,7 +390,7 @@ html, body {
 
 /* Scrollbar for sub-pages */
 .page-root::-webkit-scrollbar { width: 8px; }
-.page-root::-webkit-scrollbar-track { background: #0a0a0a; }
+.page-root::-webkit-scrollbar-track { background: #000; }
 .page-root::-webkit-scrollbar-thumb { background: rgba(255,140,0,0.3); border-radius: 4px; }
 .page-root::-webkit-scrollbar-thumb:hover { background: rgba(255,140,0,0.5); }
 

@@ -5,14 +5,16 @@ import GlassCard from "@/components/GlassCard";
 import SectionHeading from "@/components/SectionHeading";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BackgroundGrid from "@/components/BackgroundGrid";
 
 export default function About() {
   return (
     <div className="page-root">
+      <BackgroundGrid darker />
       <Navbar />
-      <main className="relative z-10 pt-20">
+      <main className="relative z-10 pt-32">
         {/* Hero */}
-        <section className="px-6 pt-20 pb-24 text-center max-w-4xl mx-auto">
+        <section className="px-6 pt-12 pb-24 text-center max-w-4xl mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -166,7 +168,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="glass p-8 md:p-12 text-center max-w-lg mx-auto"
+            className="glass p-8 md:p-12 rounded-2xl text-center max-w-lg mx-auto"
           >
             <div
               className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center text-2xl font-bold gradient-bg text-black"

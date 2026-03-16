@@ -5,6 +5,7 @@ import GlassCard from "@/components/GlassCard";
 import SectionHeading from "@/components/SectionHeading";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BackgroundGrid from "@/components/BackgroundGrid";
 
 const highlights = [
   {
@@ -32,10 +33,11 @@ const highlights = [
 export default function Community() {
   return (
     <div className="page-root">
+      <BackgroundGrid darker />
       <Navbar />
-      <main className="relative z-10 pt-20">
+      <main className="relative z-10 pt-32">
         {/* Hero */}
-        <section className="px-6 pt-20 pb-24 text-center max-w-4xl mx-auto">
+        <section className="px-6 pt-12 pb-24 text-center max-w-4xl mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -65,7 +67,7 @@ export default function Community() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="glass p-2 max-w-lg mx-auto"
+            className="glass p-4 rounded-2xl max-w-lg mx-auto"
           >
             <iframe
               src="https://discord.com/widget?id=1384979421231976658&theme=dark"
@@ -125,7 +127,7 @@ export default function Community() {
           </div>
         </section>
 
-        {/* GitHub Links */}
+        {/* Quick Links */}
         <section className="px-6 pb-32 max-w-4xl mx-auto">
           <SectionHeading
             title="Quick Links"
