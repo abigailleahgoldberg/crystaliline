@@ -4,31 +4,28 @@ import Navbar from "@/components/Navbar";
 import BackgroundGrid from "@/components/BackgroundGrid";
 import Link from "next/link";
 
-const highlights = [
-  { label: "Community Members", value: "Growing", icon: "👥" },
-  { label: "Mods Created", value: "Expanding", icon: "⚙️" },
-  { label: "Tools Integrated", value: "10+", icon: "🔗" },
-  { label: "Open Source", value: "100%", icon: "📂" },
-];
-
 export default function Community() {
   return (
     <div className="page-root">
       <BackgroundGrid darker />
       <Navbar />
-      <div className="page-container" style={{ position: "relative", zIndex: 10 }}>
-        {/* Hero */}
-        <div className="page-hero">
+
+      {/* Section 1: Hero */}
+      <section className="snap-section snap-hero">
+        <div className="section-inner">
           <h1>Join the <span className="gradient">Community</span></h1>
           <p className="hero-sub">
             Connect with fellow modders, share your work, and help shape the future of Crystaliline.
           </p>
         </div>
+        <div className="scroll-indicator">Scroll</div>
+      </section>
 
-        {/* Live Discord Chat */}
-        <div className="section">
-          <h2 className="section-title gradient-text">Live Chat</h2>
-          <p className="section-subtitle">Chat directly with the community — right from this page.</p>
+      {/* Section 2: Live Chat */}
+      <section className="snap-section">
+        <div className="section-inner">
+          <h2 className="gradient-text">Live Chat</h2>
+          <p className="section-sub">Chat directly with the community — right from this page.</p>
           <div className="discord-chat-embed">
             <iframe
               src="https://e.widgetbot.io/channels/1384979421231976658"
@@ -37,11 +34,13 @@ export default function Community() {
             />
           </div>
         </div>
+      </section>
 
-        {/* Discord Widget (member list) */}
-        <div className="section">
-          <h2 className="section-title gradient-text">Who&apos;s Online</h2>
-          <p className="section-subtitle">See who&apos;s active in the Discord right now.</p>
+      {/* Section 3: Who's Online */}
+      <section className="snap-section">
+        <div className="section-inner">
+          <h2 className="gradient-text">Who&apos;s Online</h2>
+          <p className="section-sub">See who&apos;s active in the Discord right now.</p>
           <div className="discord-embed">
             <iframe
               src="https://discord.com/widget?id=1384979421231976658&theme=dark"
@@ -50,11 +49,13 @@ export default function Community() {
             />
           </div>
         </div>
+      </section>
 
-        {/* Get Involved */}
-        <div className="section">
-          <h2 className="section-title gradient-text">Get Involved</h2>
-          <p className="section-subtitle">There are many ways to be part of the Crystaliline community.</p>
+      {/* Section 4: Get Involved */}
+      <section className="snap-section">
+        <div className="section-inner">
+          <h2 className="gradient-text">Get Involved</h2>
+          <p className="section-sub">There are many ways to be part of the Crystaliline community.</p>
           <div className="card-grid-3">
             {[
               { icon: "💬", title: "Chat & Collaborate", desc: "Join our Discord to discuss ideas, share mods, and team up on projects with other modders." },
@@ -69,69 +70,45 @@ export default function Community() {
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Community Stats */}
-        <div className="section">
-          <h2 className="section-title gradient-text">Community at a Glance</h2>
-          <div className="card-grid-4">
-            {highlights.map((item) => (
-              <div className="stat-card" key={item.label}>
-                <div className="stat-icon">{item.icon}</div>
-                <div className="stat-value">{item.value}</div>
-                <div className="stat-label">{item.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Quick Links */}
-        <div className="section">
-          <h2 className="section-title gradient-text">Quick Links</h2>
-          <p className="section-subtitle">Jump straight to the platforms where the community lives.</p>
+      {/* Section 5: Quick Links */}
+      <section className="snap-section">
+        <div className="section-inner">
+          <h2 className="gradient-text">Quick Links</h2>
+          <p className="section-sub">Jump straight to the platforms where the community lives.</p>
           <div className="card-grid-2">
             <div className="content-card">
               <h3>GitHub Repository</h3>
               <p>Browse the source code, report issues, and contribute to Crystaliline.</p>
-              <a
-                href="https://github.com/skids-zj71"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cta-link"
-                style={{ marginTop: "1rem", display: "inline-block" }}
-              >
+              <a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer" className="cta-link" style={{ marginTop: "1rem", display: "inline-block" }}>
                 View on GitHub →
               </a>
             </div>
             <div className="content-card">
               <h3>Discord Server</h3>
               <p>Chat with other modders, get help, and share your creations in real-time.</p>
-              <a
-                href="https://discord.gg/crystaliline"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cta-link"
-                style={{ marginTop: "1rem", display: "inline-block" }}
-              >
+              <a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer" className="cta-link" style={{ marginTop: "1rem", display: "inline-block" }}>
                 Join Discord →
               </a>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Footer */}
-        <footer className="page-footer">
-          <div className="footer-inner">
-            <div className="footer-brand">Crystaliline</div>
-            <div className="footer-links">
-              <Link href="/">Home</Link>
-              <Link href="/about">About</Link>
-              <Link href="/community">Community</Link>
-              <a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </div>
-            <div className="footer-copy">© {new Date().getFullYear()} Crystaliline. Built for the OG Fortnite community.</div>
+      {/* Footer */}
+      <footer className="snap-footer page-footer">
+        <div className="footer-inner">
+          <div className="footer-brand">Crystaliline</div>
+          <div className="footer-links">
+            <Link href="/">Home</Link>
+            <Link href="/about">About</Link>
+            <Link href="/community">Community</Link>
+            <a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
-        </footer>
-      </div>
+          <div className="footer-copy">© {new Date().getFullYear()} Crystaliline. Built for the OG Fortnite community.</div>
+        </div>
+      </footer>
     </div>
   );
 }
