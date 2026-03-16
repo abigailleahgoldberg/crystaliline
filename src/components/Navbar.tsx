@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import AuthButton from "./AuthButton";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -48,6 +49,9 @@ export default function Navbar() {
               Community
             </Link>
           </li>
+          <li>
+            <AuthButton />
+          </li>
         </ul>
 
         {/* Mobile hamburger */}
@@ -81,6 +85,7 @@ export default function Navbar() {
           <Link href="/" onClick={() => setMobileOpen(false)} className="mobile-nav-link" style={linkStyle("/")}>Home</Link>
           <Link href="/about" onClick={() => setMobileOpen(false)} className="mobile-nav-link" style={linkStyle("/about")}>About</Link>
           <Link href="/community" onClick={() => setMobileOpen(false)} className="mobile-nav-link" style={linkStyle("/community")}>Community</Link>
+          <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="mobile-nav-link" style={linkStyle("/dashboard")}>Dashboard</Link>
           <a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)} className="mobile-nav-link">Discord</a>
           <a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)} className="mobile-nav-link">GitHub</a>
         </div>
