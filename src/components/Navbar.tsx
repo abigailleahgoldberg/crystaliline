@@ -17,7 +17,7 @@ export default function Navbar() {
       <nav className="pill-nav">
         <div className="nav-logo">
           <Link href="/" className="nav-logo-link">
-            Crystal<span className="accent">line</span>
+            Crysta<span className="accent">liline</span>
           </Link>
         </div>
         <ul className="nav-links">

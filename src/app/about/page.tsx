@@ -11,7 +11,7 @@ export default function About() {
       {/* Section 1: Hero */}
       <section className="snap-section snap-hero">
         <div className="section-inner">
-          <h1>About Crystal<span className="gradient">line</span></h1>
+          <h1>About Crysta<span className="gradient">liline</span></h1>
           <p className="hero-sub">
             The story behind the modding tool that&apos;s changing how the OG Fortnite community builds and customizes their servers.
           </p>

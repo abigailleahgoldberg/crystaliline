@@ -10,7 +10,7 @@ const FAQ = [
   },
   {
     q: "How do I install mods?",
-    a: "Head to the Downloads section to grab the latest Crystal Loader. Run the loader, select your Fortnite build folder, and choose the mods you want to apply. The loader handles injection and patching automatically.",
+    a: "Head to the Downloads section to grab the latest Crystaliline Loader. Run the loader, select your Fortnite build folder, and choose the mods you want to apply. The loader handles injection and patching automatically.",
   },
   {
     q: "How do I set up an OG Fortnite server?",

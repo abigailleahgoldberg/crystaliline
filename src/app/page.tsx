@@ -83,7 +83,7 @@ export default function Home() {
       <div className="hero">
         <div className="hero-content">
           <h1>
-            Crystal<span className="gradient">line</span>
+            Crysta<span className="gradient">liline</span>
           </h1>
           <p className="subtitle">
             The modern modding tool for OG Fortnite servers.

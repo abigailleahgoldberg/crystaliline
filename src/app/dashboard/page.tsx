@@ -88,7 +88,7 @@ const NEWS_CARDS = [
 
 const FEATURED_CARDS = [
   {
-    title: "Crystal Loader",
+    title: "Crystaliline Loader",
     author: "ZJ",
     gradient: "linear-gradient(130deg, #1F1200 0%, #A35800 40%, #FF8C00 80%, #3D2200 100%)",
   },
@@ -144,7 +144,7 @@ export default function DashboardPage() {
         <Navbar />
         <div className="hero">
           <div className="hero-content">
-            <h1>Crystal<span className="gradient">line</span></h1>
+            <h1>Crysta<span className="gradient">liline</span></h1>
             <p className="subtitle">Sign in with Discord to access the dashboard.</p>
             <button onClick={() => signIn("discord", { callbackUrl: "/dashboard" })} className="cta" style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}>
               LOGIN WITH DISCORD
@@ -202,8 +202,8 @@ export default function DashboardPage() {
     <main className="dashboard-main">
       <div className="dashboard-content-header">
         <h1 className="dashboard-content-title">
-          <span style={{ color: "#fff" }}>Crystal</span>
-          <span className="gradient-text">line</span>
+          <span style={{ color: "#fff" }}>Crysta</span>
+          <span className="gradient-text">liline</span>
         </h1>
         <div className="social-pills">
           {SOCIAL_LINKS.map((link) => {
@@ -285,8 +285,8 @@ export default function DashboardPage() {
         {/* Logo */}
         <div className="sidebar-logo">
           <span className="sidebar-logo-text">
-            <span style={{ color: "#fff" }}>Crystal</span>
-            <span className="gradient-text">line</span>
+            <span style={{ color: "#fff" }}>Crysta</span>
+            <span className="gradient-text">liline</span>
           </span>
           <span className="sidebar-version">v1.0.0</span>
         </div>
