@@ -2,6 +2,7 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import Navbar from "@/components/Navbar";
+import BackgroundGrid from "@/components/BackgroundGrid";
 
 const REQUIRED_ROLE = "1482915649142653080";
 
@@ -116,9 +117,7 @@ export default function DashboardPage() {
   if (!session) {
     return (
       <div className="landing-root">
-        <div className="bg-grid-wrap">
-          <div className="bg-overlay" />
-        </div>
+        <BackgroundGrid />
         <Navbar />
         <div className="hero">
           <div className="hero-content">
@@ -140,9 +139,7 @@ export default function DashboardPage() {
   if (!hasAccess) {
     return (
       <div className="landing-root">
-        <div className="bg-grid-wrap">
-          <div className="bg-overlay" />
-        </div>
+        <BackgroundGrid />
         <Navbar />
         <div className="hero">
           <div className="hero-content">

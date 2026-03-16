@@ -4,58 +4,49 @@ import { useMemo } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
-// Generate diverse crystal-like gradient cards
-function generateCardGradients(count: number): string[] {
-  const palettes = [
-    "linear-gradient(135deg, #3d2200 0%, #CC6B00 50%, #1a0f00 100%)",
-    "linear-gradient(135deg, #1a0f00 0%, #FF8C00 40%, #2a1500 100%)",
-    "linear-gradient(225deg, #0d0800 0%, #b35e00 50%, #331a00 100%)",
-    "radial-gradient(ellipse at 30% 20%, #CC6B00 0%, #1a0f00 60%, #000 100%)",
-    "radial-gradient(ellipse at 70% 80%, #FF8C00 0%, #2a1500 50%, #0a0500 100%)",
-    "radial-gradient(circle at 50% 50%, #b35e00 0%, #1a0f00 70%)",
-    "radial-gradient(ellipse at 20% 70%, #e07800 0%, #0d0800 60%)",
-    "linear-gradient(60deg, #000 0%, #CC6B00 30%, #000 35%, #FF8C00 65%, #000 70%)",
-    "linear-gradient(120deg, #1a0f00 0%, #e07800 25%, #0d0800 50%, #CC6B00 75%, #1a0f00 100%)",
-    "linear-gradient(45deg, #0a0500 0%, #FF8C00 20%, #1a0f00 40%, #b35e00 60%, #0a0500 80%)",
-    "linear-gradient(180deg, #2a1f00 0%, #d4a017 50%, #1a1200 100%)",
-    "linear-gradient(0deg, #0d0a00 0%, #c89a1d 40%, #2a1f00 100%)",
-    "radial-gradient(ellipse at 40% 30%, #d4a017 0%, #1a1200 55%, #000 100%)",
-    "linear-gradient(135deg, #0a0500 0%, #4d2e00 30%, #0a0500 60%, #331a00 100%)",
-    "linear-gradient(160deg, #1a0f00 0%, #663c00 40%, #0d0800 80%)",
-    "linear-gradient(135deg, #FF8C00 0%, #CC6B00 30%, #993f00 60%, #1a0f00 100%)",
-    "radial-gradient(ellipse at 80% 20%, #FF8C00 0%, #663c00 40%, #0a0500 100%)",
-    "linear-gradient(200deg, #0d0800 0%, #FF8C00 35%, #CC6B00 65%, #0a0500 100%)",
-    "linear-gradient(135deg, #1a1200 0%, #332200 50%, #0d0a00 100%)",
-    "linear-gradient(45deg, #0d0800 0%, #261700 30%, #1a0f00 60%, #331a00 100%)",
-    "radial-gradient(circle at 60% 40%, #4d2e00 0%, #0d0800 80%)",
-    "linear-gradient(135deg, #000 0%, #993f00 20%, #000 40%, #CC6B00 60%, #000 80%, #663c00 100%)",
-    "linear-gradient(90deg, #1a0f00 0%, #FF8C00 15%, #0a0500 30%, #CC6B00 50%, #0d0800 70%, #b35e00 85%, #1a0f00 100%)",
-    "conic-gradient(from 45deg at 50% 50%, #0a0500, #CC6B00, #0a0500, #FF8C00, #0a0500)",
-    "conic-gradient(from 180deg at 30% 70%, #1a0f00, #b35e00, #0d0800, #993f00, #1a0f00)",
-    "linear-gradient(135deg, #0d0800 0%, #CC6B00 50%, #1a0f00 51%, #FF8C00 100%)",
-    "radial-gradient(ellipse at 10% 90%, #e07800 0%, #1a0f00 40%, #0a0500 100%)",
-    "linear-gradient(270deg, #0a0500 0%, #663c00 30%, #FF8C00 50%, #663c00 70%, #0a0500 100%)",
-    "radial-gradient(ellipse at 90% 10%, #CC6B00 0%, #331a00 50%, #000 100%)",
-    "linear-gradient(150deg, #2a1500 0%, #e07800 35%, #1a0f00 70%, #993f00 100%)",
-  ];
-  const result: string[] = [];
-  for (let i = 0; i < count; i++) {
-    result.push(palettes[i % palettes.length]);
-  }
-  return result;
-}
+const FORTNITE_IMAGES = [
+  "https://fortnite-api.com/images/cosmetics/br/lsid_094_holidayspecial/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_236_oceanrider/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_281_cubeninja/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_casinoreaper2/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_410_cadet/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_possession/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_278_goldentouch/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_246_hightowerdate/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_044_flytrap/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_185_s11cumulative06/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_131_s9cumulative01/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_140_s9cumulative10/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_pizzaparty2/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_049_s5cumulative10/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_sunburst_keyart/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_087_s7cumulative04/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_478_rainbowroyale_art/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_242_valet/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_128_auroraglow/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_mincepounce/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_387_island/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_nitroflowebony/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_figmentkeyart/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_mochi/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_crescentnail/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/lsid_421_scrn_journeymentor/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_stridemicekeyart/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_partyupquest/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_selenacobra_gliding/icon.png",
+  "https://fortnite-api.com/images/cosmetics/br/loadingscreen_mseesatirecane/icon.png",
+];
 
 const CARDS_PER_COL = 12;
 const NUM_COLS = 7;
 
 export default function Home() {
   const columns = useMemo(() => {
-    const allGradients = generateCardGradients(NUM_COLS * CARDS_PER_COL);
     const cols: string[][] = [];
     for (let c = 0; c < NUM_COLS; c++) {
       const cards: string[] = [];
       for (let r = 0; r < CARDS_PER_COL; r++) {
-        cards.push(allGradients[(c * CARDS_PER_COL + r) % allGradients.length]);
+        cards.push(FORTNITE_IMAGES[(c * CARDS_PER_COL + r) % FORTNITE_IMAGES.length]);
       }
       cols.push(cards);
     }
@@ -69,12 +60,15 @@ export default function Home() {
         <div className="bg-grid">
           {columns.map((cards, ci) => (
             <div className="bg-col" key={ci}>
-              {[...cards, ...cards].map((grad, ri) => (
-                <div
-                  className="bg-card"
-                  key={ri}
-                  style={{ background: grad }}
-                />
+              {[...cards, ...cards].map((src, ri) => (
+                <div className="bg-card" key={ri}>
+                  <img
+                    src={src}
+                    alt=""
+                    loading="lazy"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
               ))}
             </div>
           ))}
