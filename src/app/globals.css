@@ -931,19 +931,28 @@ html, body {
 }
 
 /* ── Dashboard App Layout ── */
-.dashboard-layout {
-  display: flex;
+.dashboard-wrapper {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   background: #1a1a24;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background: #1a1a24;
+  margin-top: 5rem;
 }
 
 /* ── Sidebar ── */
 .dashboard-sidebar {
   width: 220px;
   min-width: 220px;
-  height: 100vh;
+  height: calc(100vh - 5rem);
   background: #111118;
   display: flex;
   flex-direction: column;

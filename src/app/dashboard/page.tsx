@@ -183,7 +183,24 @@ export default function DashboardPage() {
       : `@${user.name}`;
 
   return (
-    <div className="dashboard-layout">
+    <div className="dashboard-wrapper">
+      {/* ── PILL NAV ── */}
+      <header className="pill-header">
+        <nav className="pill-nav">
+          <div className="nav-logo">
+            <a href="/" className="nav-logo-link">Crystal<span className="accent">line</span></a>
+          </div>
+          <ul className="nav-links">
+            <li><a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer">Discord</a></li>
+            <li><a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li className="hide-mobile"><a href="/about">About</a></li>
+            <li className="hide-mobile"><a href="/community">Community</a></li>
+            <li className="hide-mobile"><a href="/dashboard" style={{ color: "#FFB347" }}>Dashboard</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <div className="dashboard-layout">
       {/* ── SIDEBAR ── */}
       <aside className="dashboard-sidebar">
         {/* Logo */}
@@ -307,6 +324,7 @@ export default function DashboardPage() {
           </div>
         </section>
       </main>
+    </div>
     </div>
   );
 }

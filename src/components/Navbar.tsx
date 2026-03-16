@@ -49,6 +49,11 @@ export default function Navbar() {
               Community
             </Link>
           </li>
+          <li className="hide-mobile">
+            <Link href="/dashboard" style={linkStyle("/dashboard")}>
+              Dashboard
+            </Link>
+          </li>
           <li>
             <AuthButton />
           </li>

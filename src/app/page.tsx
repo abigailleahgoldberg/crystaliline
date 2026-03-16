@@ -106,6 +106,9 @@ export default function Home() {
             <li className="hide-mobile">
               <Link href="/community">Community</Link>
             </li>
+            <li className="hide-mobile">
+              <Link href="/dashboard">Dashboard</Link>
+            </li>
           </ul>
         </nav>
       </header>
