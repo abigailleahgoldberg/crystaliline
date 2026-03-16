@@ -1,213 +1,277 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
-import Navbar from "@/components/Navbar";
-import BackgroundGrid from "@/components/BackgroundGrid";
 
-/* ── Role-to-tier mapping ── */
-const ROLE_TIERS: Record<string, { tier: string; color: string }> = {
-  Admin: { tier: "Admin", color: "#FF4444" },
-  Moderator: { tier: "Moderator", color: "#8B5CF6" },
-  Contributor: { tier: "Contributor", color: "#3B82F6" },
-  Member: { tier: "Basic Member", color: "#FFB347" },
-};
+const REQUIRED_ROLE = "1482915649142653080";
 
-const ACCESS_LEVELS = [
+const NAV_SECTIONS = [
   {
-    tier: "Basic Member",
-    description: "View dashboard and community stats",
-    icon: "👤",
-    unlocked: (roles: string[]) => roles.length > 0,
+    label: "GENERAL",
+    items: [
+      { icon: "🏠", name: "Home", id: "home" },
+      { icon: "📰", name: "News & Updates", id: "news" },
+    ],
   },
   {
-    tier: "Contributor",
-    description: "Access tools section and beta features",
-    icon: "🛠",
-    unlocked: (roles: string[]) =>
-      roles.some((r) => ["Contributor", "Moderator", "Admin"].includes(r)),
+    label: "TOOLS",
+    items: [
+      { icon: "📦", name: "Assets", id: "assets" },
+      { icon: "📁", name: "Files", id: "files" },
+      { icon: "🗺️", name: "Map", id: "map" },
+      { icon: "🎵", name: "Music", id: "music" },
+    ],
   },
   {
-    tier: "Moderator",
-    description: "Access admin panel and moderation tools",
-    icon: "🛡",
-    unlocked: (roles: string[]) =>
-      roles.some((r) => ["Moderator", "Admin"].includes(r)),
+    label: "ONLINE",
+    items: [
+      { icon: "💬", name: "Chat", id: "chat" },
+      { icon: "🏆", name: "Leaderboard", id: "leaderboard" },
+    ],
   },
   {
-    tier: "Admin",
-    description: "Full access to all features and settings",
-    icon: "⚡",
-    unlocked: (roles: string[]) => roles.includes("Admin"),
+    label: "SETTINGS",
+    items: [
+      { icon: "🔌", name: "Plugins", id: "plugins" },
+      { icon: "📤", name: "Export Options", id: "export" },
+      { icon: "⚙️", name: "App Settings", id: "settings" },
+    ],
+  },
+  {
+    label: "INFO",
+    items: [
+      { icon: "🖥️", name: "Console", id: "console" },
+      { icon: "❓", name: "Help", id: "help" },
+    ],
   },
 ];
 
-/* ── Some known role colors (fallback) ── */
-function getRoleColor(roleName: string): string {
-  return ROLE_TIERS[roleName]?.color || "#71717a";
-}
+const NEWS_CARDS = [
+  {
+    tag: "UPDATE",
+    date: "Mar 15",
+    title: "Release v1.0.0",
+    desc: "Crystaliline is now available!",
+  },
+  {
+    tag: "NEWS",
+    date: "Mar 15",
+    title: "Community Launch",
+    desc: "Join the growing Crystaliline community!",
+  },
+  {
+    tag: "NEWS",
+    date: "Mar 14",
+    title: "Open Source",
+    desc: "Crystaliline is now fully open source!",
+  },
+];
+
+const FEATURED_CARDS = [
+  { title: "Crystal Loader", author: "ZJ" },
+  { title: "Skin Swapper", author: "Community" },
+  { title: "Map Editor", author: "Contributors" },
+];
+
+const SOCIAL_LINKS = [
+  { icon: "💬", label: "Discord", href: "https://discord.gg/crystaliline" },
+  { icon: "🐙", label: "GitHub", href: "https://github.com/crystaliline" },
+  { icon: "👥", label: "Community", href: "/community" },
+  { icon: "🌐", label: "Website", href: "/" },
+];
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
 
+  /* Loading */
   if (status === "loading") {
     return (
-      <div className="page-root">
-        <BackgroundGrid darker />
-        <Navbar />
-        <div className="snap-section">
-          <div className="dashboard-loading">
-            <div className="dashboard-spinner" />
-            <p>Loading...</p>
-          </div>
-        </div>
+      <div className="dashboard-gate">
+        <div className="dashboard-spinner" />
+        <p style={{ color: "#71717a" }}>Loading...</p>
       </div>
     );
   }
 
+  /* Not signed in */
   if (!session) {
     return (
-      <div className="page-root">
-        <BackgroundGrid darker />
-        <Navbar />
-        <div className="snap-section snap-hero">
-          <h1>
-            <span className="gradient-text">Dashboard</span>
-          </h1>
-          <p className="hero-sub">
-            Sign in with Discord to view your roles, access level, and server status.
-          </p>
-          <button onClick={() => signIn("discord")} className="login-button">
-            Login with Discord
+      <div className="dashboard-gate">
+        <h1 className="dashboard-gate-title">
+          <span style={{ color: "#fff" }}>Crystal</span>
+          <span className="gradient-text">line</span>
+        </h1>
+        <p style={{ color: "#71717a", marginBottom: "2rem" }}>
+          Sign in with Discord to access the dashboard.
+        </p>
+        <button onClick={() => signIn("discord")} className="login-button">
+          Login with Discord
+        </button>
+      </div>
+    );
+  }
+
+  /* Role check */
+  const roles = session.user.roles || [];
+  const hasAccess = roles.includes(REQUIRED_ROLE);
+
+  if (!hasAccess) {
+    return (
+      <div className="dashboard-gate">
+        <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🚫</div>
+        <h1 className="dashboard-gate-title" style={{ fontSize: "1.75rem" }}>
+          Access Denied
+        </h1>
+        <p style={{ color: "#71717a", maxWidth: 420, textAlign: "center", lineHeight: 1.6, marginBottom: "2rem" }}>
+          You need the Crystaliline role to access this dashboard. Join our Discord server to get the role.
+        </p>
+        <div style={{ display: "flex", gap: "1rem" }}>
+          <a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer" className="login-button" style={{ fontSize: "0.95rem", padding: "0.75rem 1.75rem" }}>
+            Join Discord
+          </a>
+          <button onClick={() => signOut()} className="logout-button">
+            Sign Out
           </button>
         </div>
       </div>
     );
   }
 
+  /* Build avatar URL */
   const user = session.user;
   const avatarUrl =
     user.discordId && user.avatar
       ? `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.png?size=256`
       : null;
-
-  const roleNames = user.roles || [];
+  const handle =
+    user.discriminator && user.discriminator !== "0"
+      ? `#${user.discriminator}`
+      : `@${user.name}`;
 
   return (
-    <div className="page-root">
-      <BackgroundGrid darker />
-      <Navbar />
+    <div className="dashboard-layout">
+      {/* ── SIDEBAR ── */}
+      <aside className="dashboard-sidebar">
+        {/* Logo */}
+        <div className="sidebar-logo">
+          <span className="sidebar-logo-text">
+            <span style={{ color: "#fff" }}>Crystal</span>
+            <span className="gradient-text">line</span>
+          </span>
+          <span className="sidebar-version">v1.0.0</span>
+        </div>
 
-      <div className="snap-section">
-        <div className="section-inner">
-          {/* User profile header */}
-          <div className="dashboard-header">
-            <div className="dashboard-profile">
-              {avatarUrl ? (
-                <img src={avatarUrl} alt="" className="user-avatar" />
-              ) : (
-                <div className="user-avatar user-avatar-fallback">
-                  {user.name?.[0] || "?"}
-                </div>
-              )}
-              <div className="dashboard-user-info">
-                <h1 className="dashboard-username">{user.name}</h1>
-                <p className="dashboard-discriminator">
-                  {user.discriminator && user.discriminator !== "0"
-                    ? `#${user.discriminator}`
-                    : `@${user.name}`}
-                </p>
-              </div>
-            </div>
-            <button onClick={() => signOut()} className="logout-button">
-              Logout
-            </button>
-          </div>
-
-          {/* Cards grid */}
-          <div className="dashboard-grid">
-            {/* Server status */}
-            <div className="dashboard-card">
-              <h3 className="dashboard-card-title">Server Status</h3>
-              <div className="server-status">
-                <span
-                  className="status-dot"
-                  style={{
-                    background: user.inGuild ? "#22c55e" : "#ef4444",
-                  }}
-                />
-                <span className="status-text">
-                  {user.inGuild
-                    ? "Member of Crystaliline"
-                    : "Not in Crystaliline server"}
-                </span>
-              </div>
-              {!user.inGuild && (
-                <a
-                  href="https://discord.gg/crystaliline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cta-link"
-                  style={{ marginTop: "1rem", display: "inline-block" }}
+        {/* Navigation */}
+        <nav className="sidebar-nav">
+          {NAV_SECTIONS.map((section) => (
+            <div key={section.label} className="sidebar-section">
+              <span className="sidebar-section-label">{section.label}</span>
+              {section.items.map((item) => (
+                <button
+                  key={item.id}
+                  className={`sidebar-item${item.id === "home" ? " active" : ""}`}
                 >
-                  Join Server
-                </a>
-              )}
+                  <span className="sidebar-item-icon">{item.icon}</span>
+                  {item.name}
+                </button>
+              ))}
             </div>
+          ))}
+        </nav>
 
-            {/* Roles */}
-            <div className="dashboard-card">
-              <h3 className="dashboard-card-title">Your Roles</h3>
-              {roleNames.length > 0 ? (
-                <div className="roles-list">
-                  {roleNames.map((roleId) => (
-                    <span
-                      key={roleId}
-                      className="role-badge"
-                      style={{
-                        borderColor: getRoleColor(roleId),
-                        color: getRoleColor(roleId),
-                      }}
-                    >
-                      {roleId}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <p className="dashboard-empty">
-                  {user.inGuild
-                    ? "No named roles assigned yet"
-                    : "Join the server to get roles"}
-                </p>
-              )}
-            </div>
-
-            {/* Access levels */}
-            <div className="dashboard-card dashboard-card-wide">
-              <h3 className="dashboard-card-title">Your Access Level</h3>
-              <div className="access-list">
-                {ACCESS_LEVELS.map((level) => {
-                  const unlocked = level.unlocked(roleNames);
-                  return (
-                    <div
-                      key={level.tier}
-                      className={`access-card ${unlocked ? "access-unlocked" : "access-locked"}`}
-                    >
-                      <span className="access-icon">{level.icon}</span>
-                      <div className="access-info">
-                        <span className="access-tier">{level.tier}</span>
-                        <span className="access-desc">{level.description}</span>
-                      </div>
-                      <span className="access-status">
-                        {unlocked ? "✓" : "🔒"}
-                      </span>
-                    </div>
-                  );
-                })}
+        {/* User profile */}
+        <div className="sidebar-profile">
+          <div className="sidebar-profile-sep" />
+          <div className="sidebar-profile-row">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="" className="sidebar-avatar" />
+            ) : (
+              <div className="sidebar-avatar sidebar-avatar-fallback">
+                {user.name?.[0] || "?"}
               </div>
+            )}
+            <div className="sidebar-profile-info">
+              <span className="sidebar-profile-name">{user.name}</span>
+              <span className="sidebar-profile-handle">{handle}</span>
             </div>
+          </div>
+          <div className="sidebar-xp">
+            <div className="sidebar-xp-labels">
+              <span>Level 1</span>
+              <span>0/100 XP</span>
+            </div>
+            <div className="sidebar-xp-track">
+              <div className="sidebar-xp-fill" style={{ width: "0%" }} />
+            </div>
+          </div>
+          <button onClick={() => signOut()} className="sidebar-signout">
+            Sign Out
+          </button>
+        </div>
+      </aside>
+
+      {/* ── MAIN CONTENT ── */}
+      <main className="dashboard-main">
+        {/* Header */}
+        <div className="dashboard-content-header">
+          <h1 className="dashboard-content-title">
+            <span style={{ color: "#fff" }}>Crystal</span>
+            <span className="gradient-text">line</span>
+          </h1>
+          <div className="social-pills">
+            {SOCIAL_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="social-pill"
+              >
+                <span>{link.icon}</span>
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
-      </div>
+
+        {/* News & Updates */}
+        <section className="dashboard-section">
+          <h2 className="dashboard-section-title">News & Updates</h2>
+          <div className="news-grid">
+            {NEWS_CARDS.map((card) => (
+              <div key={card.title} className="news-card">
+                <div className="news-card-image" />
+                <div className="news-card-body">
+                  <div className="news-card-meta">
+                    <span className={`card-tag ${card.tag === "UPDATE" ? "update" : "news"}`}>
+                      {card.tag}
+                    </span>
+                    <span className="news-card-date">{card.date}</span>
+                  </div>
+                  <h3 className="news-card-title">{card.title}</h3>
+                  <p className="news-card-desc">{card.desc}</p>
+                </div>
+                <span className="news-card-arrow">→</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Featured Mods */}
+        <section className="dashboard-section">
+          <h2 className="dashboard-section-title">Featured Mods</h2>
+          <div className="featured-grid">
+            {FEATURED_CARDS.map((card) => (
+              <div key={card.title} className="featured-card">
+                <div className="featured-card-image" />
+                <div className="featured-card-body">
+                  <h3 className="featured-card-title">{card.title}</h3>
+                  <p className="featured-card-author">by {card.author}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
