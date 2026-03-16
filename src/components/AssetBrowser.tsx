@@ -18,31 +18,20 @@ const COSMETIC_CATEGORIES = [
   { icon: "🤖", name: "Sidekicks", filter: "sidekick" },
 ];
 
-const CREATIVE_CATEGORIES = [
-  { icon: "🧱", name: "Props", filter: "__creative_props" },
-  { icon: "🏗️", name: "Prefabs", filter: "__creative_prefabs" },
-];
-
-const GAMEPLAY_CATEGORIES = [
-  { icon: "🔫", name: "Items", filter: "__gameplay_items" },
-  { icon: "🔧", name: "Weapon Mods", filter: "__gameplay_weaponmods" },
-  { icon: "📦", name: "Resources", filter: "__gameplay_resources" },
-  { icon: "🪤", name: "Traps", filter: "__gameplay_traps" },
-  { icon: "🚗", name: "Vehicles", filter: "__cars" },
-  { icon: "🦊", name: "Wildlife", filter: "__gameplay_wildlife" },
-];
-
 const FESTIVAL_CATEGORIES = [
   { icon: "🎸", name: "Guitars", filter: "__instrument_guitar" },
   { icon: "🎸", name: "Basses", filter: "__instrument_bass" },
   { icon: "🎹", name: "Keytars", filter: "__instrument_keytar" },
 ];
 
+const VEHICLES_CATEGORIES = [
+  { icon: "🚗", name: "Vehicles", filter: "__cars" },
+];
+
 const SECTIONS = [
   { label: "COSMETICS", categories: COSMETIC_CATEGORIES },
-  { label: "CREATIVE", categories: CREATIVE_CATEGORIES },
-  { label: "GAMEPLAY", categories: GAMEPLAY_CATEGORIES },
   { label: "FESTIVAL", categories: FESTIVAL_CATEGORIES },
+  { label: "VEHICLES", categories: VEHICLES_CATEGORIES },
 ];
 
 interface CosmeticItem {
@@ -126,8 +115,6 @@ export default function AssetBrowser() {
         return true;
       });
       if (items.length === 0) items = instrumentItems;
-    } else if (activeCategory.startsWith("__")) {
-      return [];
     } else if (activeCategory === "pet") {
       items = allItems.filter(
         (i) => i.type.value === "petcarrier" || i.type.value === "pet"
@@ -163,7 +150,6 @@ export default function AssetBrowser() {
     }
   }, [hasMore]);
 
-  const isPlaceholder = activeCategory.startsWith("__") && activeCategory !== "__cars" && !activeCategory.startsWith("__instrument_");
 
   /* ── Category label ── */
   const activeCategoryName =
@@ -196,7 +182,7 @@ export default function AssetBrowser() {
         <div className="asset-toolbar">
           <div className="asset-toolbar-left">
             <span className="asset-toolbar-title">{activeCategoryName}</span>
-            {!loading && !isPlaceholder && (
+            {!loading && (
               <span className="asset-toolbar-count">
                 {filteredItems.length.toLocaleString()} items
               </span>
@@ -223,14 +209,6 @@ export default function AssetBrowser() {
           ) : error ? (
             <div className="asset-loading">
               <p style={{ color: "#ef4444" }}>{error}</p>
-            </div>
-          ) : isPlaceholder ? (
-            <div className="asset-loading">
-              <span style={{ fontSize: "2.5rem" }}>🚧</span>
-              <p>Coming Soon</p>
-              <p style={{ fontSize: "12px", color: "#6B6B7B" }}>
-                This category is not yet available from the API.
-              </p>
             </div>
           ) : filteredItems.length === 0 ? (
             <div className="asset-loading">
