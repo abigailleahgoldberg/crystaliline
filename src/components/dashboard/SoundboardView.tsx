@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Crosshair, Music, Gamepad2, Zap, Volume2, Square } from "lucide-react";
+import {
+  Crosshair, Music, Gamepad2, Zap, Volume2, Square,
+  Sword, Shield, CloudLightning, RotateCcw, Diamond, Target,
+  Hammer, Pickaxe, Laugh, AlertTriangle, Siren, Bell,
+  Radio, Disc, Trophy, Skull, Heart, Star
+} from "lucide-react";
 
 /* ── Types ── */
 
@@ -10,47 +15,56 @@ interface SoundDef {
   category: "fortnite" | "memes" | "game";
   type: "youtube" | "webaudio";
   youtubeId?: string;
-  iconKey: "crosshair" | "music" | "gamepad" | "zap";
+  icon: React.ComponentType<{ size?: number; color?: string }>;
 }
 
 const SOUNDS: SoundDef[] = [
-  // Iconic Fortnite (YouTube)
-  { name: "Default Dance", category: "fortnite", type: "youtube", youtubeId: "czHKeFb0M7Q", iconKey: "music" },
-  { name: "OG Menu Music", category: "fortnite", type: "youtube", youtubeId: "OI_f0SfECWA", iconKey: "music" },
-  { name: "Floss", category: "fortnite", type: "youtube", youtubeId: "LV-t_2MjL0o", iconKey: "music" },
-  { name: "Take the L", category: "fortnite", type: "youtube", youtubeId: "6BERN2jVns8", iconKey: "music" },
-  { name: "Orange Justice", category: "fortnite", type: "youtube", youtubeId: "9L0jY0MpjKI", iconKey: "music" },
-  { name: "Chug Jug With You", category: "fortnite", type: "youtube", youtubeId: "Z0Uh3OJCx3o", iconKey: "music" },
-  // Memes (YouTube)
-  { name: "Bruh", category: "memes", type: "youtube", youtubeId: "2ZIpFytCSVc", iconKey: "gamepad" },
-  { name: "Vine Boom", category: "memes", type: "youtube", youtubeId: "ja0n3gqCXfY", iconKey: "gamepad" },
-  { name: "Rizz", category: "memes", type: "youtube", youtubeId: "xyAEwMWn05A", iconKey: "gamepad" },
-  { name: "Among Us", category: "memes", type: "youtube", youtubeId: "grd-K33tOSM", iconKey: "gamepad" },
-  { name: "MLG Horn", category: "memes", type: "youtube", youtubeId: "3-d6yBTGOw4", iconKey: "gamepad" },
-  { name: "Oof", category: "memes", type: "youtube", youtubeId: "HoBa2SyvtpE", iconKey: "gamepad" },
-  // Game Sounds (Web Audio)
-  { name: "Chest Open", category: "game", type: "webaudio", iconKey: "zap" },
-  { name: "Victory Royale", category: "game", type: "webaudio", iconKey: "zap" },
-  { name: "Elimination", category: "game", type: "webaudio", iconKey: "crosshair" },
-  { name: "Shield Pop", category: "game", type: "webaudio", iconKey: "zap" },
-  { name: "Storm Circle", category: "game", type: "webaudio", iconKey: "zap" },
-  { name: "Reboot Card", category: "game", type: "webaudio", iconKey: "zap" },
+  // ── FORTNITE (YouTube clips) ──
+  { name: "Default Dance", category: "fortnite", type: "youtube", youtubeId: "czHKeFb0M7Q", icon: Music },
+  { name: "OG Lobby Music", category: "fortnite", type: "youtube", youtubeId: "OI_f0SfECWA", icon: Radio },
+  { name: "Take the L", category: "fortnite", type: "youtube", youtubeId: "6BERN2jVns8", icon: Laugh },
+  { name: "Floss", category: "fortnite", type: "youtube", youtubeId: "LV-t_2MjL0o", icon: Star },
+  { name: "Orange Justice", category: "fortnite", type: "youtube", youtubeId: "9L0jY0MpjKI", icon: Disc },
+  { name: "Chug Jug With You", category: "fortnite", type: "youtube", youtubeId: "Z0Uh3OJCx3o", icon: Heart },
+  { name: "Renegade", category: "fortnite", type: "youtube", youtubeId: "L3w6RzROhvM", icon: Sword },
+  { name: "Electro Shuffle", category: "fortnite", type: "youtube", youtubeId: "fHv2VUJkMY4", icon: Zap },
+  { name: "Scenario", category: "fortnite", type: "youtube", youtubeId: "WJa3eUczYaM", icon: Music },
+  { name: "Hype", category: "fortnite", type: "youtube", youtubeId: "gUGkhaRg-gE", icon: Star },
+  { name: "Never Gonna", category: "fortnite", type: "youtube", youtubeId: "dQw4w9WgXcQ", icon: Radio },
+  { name: "Star Power", category: "fortnite", type: "youtube", youtubeId: "VzMXC_vXxD0", icon: Star },
+  { name: "Smooth Moves", category: "fortnite", type: "youtube", youtubeId: "AZx8kVrk7Ks", icon: Disc },
+
+  // ── MEMES (YouTube clips) ──
+  { name: "Bruh", category: "memes", type: "youtube", youtubeId: "2ZIpFytCSVc", icon: Gamepad2 },
+  { name: "Vine Boom", category: "memes", type: "youtube", youtubeId: "ja0n3gqCXfY", icon: AlertTriangle },
+  { name: "Among Us", category: "memes", type: "youtube", youtubeId: "grd-K33tOSM", icon: Skull },
+  { name: "MLG Air Horn", category: "memes", type: "youtube", youtubeId: "3-d6yBTGOw4", icon: Siren },
+  { name: "Windows XP Error", category: "memes", type: "youtube", youtubeId: "0lhhrUuw2N8", icon: Bell },
+  { name: "Taco Bell", category: "memes", type: "youtube", youtubeId: "tfHOuTqAzJI", icon: Bell },
+  { name: "Rick Roll", category: "memes", type: "youtube", youtubeId: "dQw4w9WgXcQ", icon: Radio },
+  { name: "Emotional Damage", category: "memes", type: "youtube", youtubeId: "njO8mmr2MoQ", icon: Heart },
+  { name: "Wah Wah Wah", category: "memes", type: "youtube", youtubeId: "CQeezCdF4mk", icon: Laugh },
+  { name: "Bonk", category: "memes", type: "youtube", youtubeId: "gwxTZaa3NgI", icon: Hammer },
+
+  // ── GAME SFX (Web Audio) ──
+  { name: "Chest Open", category: "game", type: "webaudio", icon: Diamond },
+  { name: "Victory Royale", category: "game", type: "webaudio", icon: Trophy },
+  { name: "Elimination", category: "game", type: "webaudio", icon: Crosshair },
+  { name: "Shield Pop", category: "game", type: "webaudio", icon: Shield },
+  { name: "Storm Warning", category: "game", type: "webaudio", icon: CloudLightning },
+  { name: "Reboot Van", category: "game", type: "webaudio", icon: RotateCcw },
+  { name: "Llama Found", category: "game", type: "webaudio", icon: Diamond },
+  { name: "Headshot", category: "game", type: "webaudio", icon: Target },
+  { name: "Building Place", category: "game", type: "webaudio", icon: Hammer },
+  { name: "Pickaxe Hit", category: "game", type: "webaudio", icon: Pickaxe },
 ];
 
 const CATEGORIES = [
-  { id: "all", label: "All", iconKey: "volume2" },
-  { id: "fortnite", label: "Fortnite", iconKey: "music" },
-  { id: "memes", label: "Memes", iconKey: "gamepad" },
-  { id: "game", label: "Game SFX", iconKey: "zap" },
+  { id: "all", label: "All", icon: Volume2 },
+  { id: "fortnite", label: "Fortnite", icon: Music },
+  { id: "memes", label: "Memes", icon: Gamepad2 },
+  { id: "game", label: "Game SFX", icon: Zap },
 ] as const;
-
-const CAT_ICON_MAP: Record<string, React.ComponentType<{size?: number; color?: string}>> = {
-  volume2: Volume2,
-  music: Music,
-  gamepad: Gamepad2,
-  zap: Zap,
-  crosshair: Crosshair,
-};
 
 /* ── SoundEngine: Web Audio API synthesis ── */
 
@@ -97,14 +111,17 @@ class SoundEngine {
       case "Victory Royale": return this.victoryRoyale(ctx, master, t);
       case "Elimination": return this.elimination(ctx, master, t);
       case "Shield Pop": return this.shieldPop(ctx, master, t);
-      case "Storm Circle": return this.stormCircle(ctx, master, t);
-      case "Reboot Card": return this.rebootCard(ctx, master, t);
+      case "Storm Warning": return this.stormWarning(ctx, master, t);
+      case "Reboot Van": return this.rebootVan(ctx, master, t);
+      case "Llama Found": return this.llamaFound(ctx, master, t);
+      case "Headshot": return this.headshot(ctx, master, t);
+      case "Building Place": return this.buildingPlace(ctx, master, t);
+      case "Pickaxe Hit": return this.pickaxeHit(ctx, master, t);
       default: return 300;
     }
   }
 
   private chestOpen(ctx: AudioContext, master: GainNode, t: number): number {
-    // Sparkle ascending
     const notes = [523, 659, 784, 880, 1047, 1175, 1319, 1568];
     notes.forEach((freq, i) => {
       const osc = ctx.createOscillator();
@@ -113,7 +130,6 @@ class SoundEngine {
       osc.frequency.setValueAtTime(freq, t + i * 0.07);
       g.gain.setValueAtTime(0.2, t + i * 0.07);
       g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.07 + 0.18);
-      // Add shimmer with second oscillator
       const osc2 = ctx.createOscillator();
       const g2 = ctx.createGain();
       osc2.type = "triangle";
@@ -131,7 +147,6 @@ class SoundEngine {
   }
 
   private victoryRoyale(ctx: AudioContext, master: GainNode, t: number): number {
-    // Triumphant fanfare
     const chords = [
       [261, 329, 392],
       [293, 370, 440],
@@ -151,7 +166,6 @@ class SoundEngine {
         osc.start(t + ci * 0.3);
         osc.stop(t + ci * 0.3 + 0.3);
       });
-      // Add brass-like overtone
       const brass = ctx.createOscillator();
       const bg = ctx.createGain();
       brass.type = "sawtooth";
@@ -166,7 +180,6 @@ class SoundEngine {
   }
 
   private elimination(ctx: AudioContext, master: GainNode, t: number): number {
-    // Sharp hit with impact
     const osc = ctx.createOscillator();
     const g = ctx.createGain();
     osc.type = "sawtooth";
@@ -177,7 +190,6 @@ class SoundEngine {
     osc.connect(g).connect(master);
     osc.start(t);
     osc.stop(t + 0.18);
-
     const n = this.noise(ctx, 0.1);
     const ng = ctx.createGain();
     ng.gain.setValueAtTime(0.35, t);
@@ -192,7 +204,6 @@ class SoundEngine {
   }
 
   private shieldPop(ctx: AudioContext, master: GainNode, t: number): number {
-    // Crystal break
     const freqs = [2000, 3200, 4200, 2800, 3600, 5000];
     freqs.forEach((f, i) => {
       const osc = ctx.createOscillator();
@@ -206,7 +217,6 @@ class SoundEngine {
       osc.start(t + i * 0.03);
       osc.stop(t + i * 0.03 + 0.16);
     });
-    // Glass shatter noise
     const n = this.noise(ctx, 0.15);
     const ng = ctx.createGain();
     ng.gain.setValueAtTime(0.2, t + 0.05);
@@ -221,8 +231,7 @@ class SoundEngine {
     return 400;
   }
 
-  private stormCircle(ctx: AudioContext, master: GainNode, t: number): number {
-    // Rumble
+  private stormWarning(ctx: AudioContext, master: GainNode, t: number): number {
     const osc = ctx.createOscillator();
     const g = ctx.createGain();
     osc.type = "sawtooth";
@@ -234,7 +243,6 @@ class SoundEngine {
     osc.connect(g).connect(master);
     osc.start(t);
     osc.stop(t + 1.8);
-
     const n = this.noise(ctx, 1.8);
     const ng = ctx.createGain();
     ng.gain.setValueAtTime(0.02, t);
@@ -250,8 +258,7 @@ class SoundEngine {
     return 1900;
   }
 
-  private rebootCard(ctx: AudioContext, master: GainNode, t: number): number {
-    // Digital chime
+  private rebootVan(ctx: AudioContext, master: GainNode, t: number): number {
     const notes = [880, 1047, 1319, 1568, 1760];
     notes.forEach((freq, i) => {
       const osc = ctx.createOscillator();
@@ -263,8 +270,6 @@ class SoundEngine {
       osc.connect(g).connect(master);
       osc.start(t + i * 0.1);
       osc.stop(t + i * 0.1 + 0.17);
-
-      // Digital overtone
       const osc2 = ctx.createOscillator();
       const g2 = ctx.createGain();
       osc2.type = "triangle";
@@ -276,6 +281,95 @@ class SoundEngine {
       osc2.stop(t + i * 0.1 + 0.12);
     });
     return 700;
+  }
+
+  private llamaFound(ctx: AudioContext, master: GainNode, t: number): number {
+    const melody = [660, 880, 1100, 880, 1320, 1100];
+    melody.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(freq, t + i * 0.12);
+      g.gain.setValueAtTime(0.2, t + i * 0.12);
+      g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.12 + 0.15);
+      osc.connect(g).connect(master);
+      osc.start(t + i * 0.12);
+      osc.stop(t + i * 0.12 + 0.17);
+    });
+    return 900;
+  }
+
+  private headshot(ctx: AudioContext, master: GainNode, t: number): number {
+    // Sharp crack
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = "square";
+    osc.frequency.setValueAtTime(2400, t);
+    osc.frequency.exponentialRampToValueAtTime(200, t + 0.06);
+    g.gain.setValueAtTime(0.5, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+    osc.connect(g).connect(master);
+    osc.start(t);
+    osc.stop(t + 0.1);
+    // Ding
+    const osc2 = ctx.createOscillator();
+    const g2 = ctx.createGain();
+    osc2.type = "sine";
+    osc2.frequency.setValueAtTime(1800, t + 0.02);
+    g2.gain.setValueAtTime(0.3, t + 0.02);
+    g2.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+    osc2.connect(g2).connect(master);
+    osc2.start(t + 0.02);
+    osc2.stop(t + 0.27);
+    return 300;
+  }
+
+  private buildingPlace(ctx: AudioContext, master: GainNode, t: number): number {
+    // Thunk + click
+    const n = this.noise(ctx, 0.08);
+    const ng = ctx.createGain();
+    ng.gain.setValueAtTime(0.4, t);
+    ng.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+    const bp = ctx.createBiquadFilter();
+    bp.type = "lowpass";
+    bp.frequency.setValueAtTime(400, t);
+    n.connect(bp).connect(ng).connect(master);
+    n.start(t);
+    n.stop(t + 0.08);
+    // Snap
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(600, t + 0.04);
+    g.gain.setValueAtTime(0.15, t + 0.04);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+    osc.connect(g).connect(master);
+    osc.start(t + 0.04);
+    osc.stop(t + 0.14);
+    return 200;
+  }
+
+  private pickaxeHit(ctx: AudioContext, master: GainNode, t: number): number {
+    // Metal clang
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(800, t);
+    osc.frequency.exponentialRampToValueAtTime(300, t + 0.15);
+    g.gain.setValueAtTime(0.35, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+    osc.connect(g).connect(master);
+    osc.start(t);
+    osc.stop(t + 0.22);
+    // Impact noise
+    const n = this.noise(ctx, 0.06);
+    const ng = ctx.createGain();
+    ng.gain.setValueAtTime(0.3, t);
+    ng.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+    n.connect(ng).connect(master);
+    n.start(t);
+    n.stop(t + 0.06);
+    return 300;
   }
 }
 
@@ -303,7 +397,6 @@ export default function SoundboardView() {
     }
   }, [volume]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -325,7 +418,6 @@ export default function SoundboardView() {
       clearTimeout(ytStopTimerRef.current);
       ytStopTimerRef.current = null;
     }
-    // Stop YouTube by loading blank
     if (iframeRef.current) {
       iframeRef.current.src = "about:blank";
     }
@@ -334,16 +426,12 @@ export default function SoundboardView() {
 
   const playSound = useCallback(
     (sound: SoundDef) => {
-      // Stop any currently playing sound
       stopCurrentSound();
-
       setPlayingSound(sound.name);
 
       if (sound.type === "youtube" && sound.youtubeId) {
-        // Play YouTube video for 4 seconds
-        const ytVolume = Math.round(volume * 100);
         if (iframeRef.current) {
-          iframeRef.current.src = `https://www.youtube.com/embed/${sound.youtubeId}?autoplay=1&start=0&enablejsapi=0&vol=${ytVolume}`;
+          iframeRef.current.src = `https://www.youtube.com/embed/${sound.youtubeId}?autoplay=1&start=0`;
         }
         ytStopTimerRef.current = setTimeout(() => {
           if (iframeRef.current) {
@@ -353,11 +441,9 @@ export default function SoundboardView() {
           ytStopTimerRef.current = null;
         }, 4000);
       } else {
-        // Web Audio
         const engine = getEngine();
         engine.setVolume(volume);
         const durationMs = engine.play(sound.name);
-
         timeoutRef.current = setTimeout(() => {
           setPlayingSound(null);
           timeoutRef.current = null;
@@ -372,7 +458,7 @@ export default function SoundboardView() {
       <div className="view-header">
         <h2 className="view-title">Sound Board</h2>
         <p className="view-subtitle">
-          Fortnite sounds, memes &amp; game SFX &mdash; YouTube clips + Web Audio API
+          Fortnite sounds, memes &amp; game SFX
         </p>
       </div>
 
@@ -394,7 +480,7 @@ export default function SoundboardView() {
 
       <div className="soundboard-volume-row">
         <label className="soundboard-volume-label" htmlFor="sb-vol">
-          <Volume2 size={18} color="#8888A0" />
+          <Volume2 size={18} color="#A0A0AA" />
           <span style={{ marginLeft: "0.4rem" }}>Volume</span>
         </label>
         <input
@@ -414,15 +500,15 @@ export default function SoundboardView() {
 
       <div className="view-category-tabs">
         {CATEGORIES.map((cat) => {
-          const CatIcon = CAT_ICON_MAP[cat.iconKey];
+          const CatIcon = cat.icon;
           return (
             <button
               key={cat.id}
               className={`view-category-tab${activeCategory === cat.id ? " active" : ""}`}
               onClick={() => setActiveCategory(cat.id)}
             >
-              {CatIcon && <CatIcon size={16} />}
-              <span style={{ marginLeft: "0.35rem" }}>{cat.label}</span>
+              <CatIcon size={16} />
+              <span>{cat.label}</span>
             </button>
           );
         })}
@@ -431,7 +517,7 @@ export default function SoundboardView() {
       <div className="view-grid view-grid-sounds">
         {filtered.map((sound) => {
           const isPlaying = playingSound === sound.name;
-          const SoundIcon = CAT_ICON_MAP[sound.iconKey];
+          const SoundIcon = sound.icon;
           let cls = "view-sound-btn";
           if (isPlaying) cls += " playing pulse";
 
@@ -441,52 +527,18 @@ export default function SoundboardView() {
               className={cls}
               onClick={() => isPlaying ? stopCurrentSound() : playSound(sound)}
             >
-              <span className="view-sound-emoji">
+              <span className="view-sound-icon">
                 {isPlaying ? (
-                  <Square size={20} color="#FF8C00" />
+                  <Square size={32} color="#FF8C00" />
                 ) : (
-                  SoundIcon && <SoundIcon size={20} color="#FF8C00" />
+                  <SoundIcon size={32} color="#FF8C00" />
                 )}
               </span>
               <span className="view-sound-name">{sound.name}</span>
-              {sound.type === "youtube" && (
-                <span className="view-sound-badge">YT</span>
-              )}
             </button>
           );
         })}
       </div>
-
-      <style>{`
-        .view-sound-badge {
-          position: absolute;
-          top: 6px;
-          right: 6px;
-          font-size: 0.6rem;
-          font-weight: 700;
-          color: #FF8C00;
-          background: rgba(255, 140, 0, 0.15);
-          border: 1px solid rgba(255, 140, 0, 0.3);
-          border-radius: 4px;
-          padding: 1px 5px;
-          letter-spacing: 0.05em;
-        }
-        .view-sound-btn {
-          position: relative;
-        }
-        .view-sound-btn.playing {
-          box-shadow: 0 0 16px rgba(255, 140, 0, 0.4), 0 0 4px rgba(255, 140, 0, 0.2);
-          border-color: rgba(255, 140, 0, 0.5);
-        }
-        .view-sound-btn.pulse {
-          animation: sb-pulse 0.6s ease-out;
-        }
-        @keyframes sb-pulse {
-          0% { transform: scale(1); }
-          30% { transform: scale(1.05); }
-          100% { transform: scale(1); }
-        }
-      `}</style>
     </main>
   );
 }

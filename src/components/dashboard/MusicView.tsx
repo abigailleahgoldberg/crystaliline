@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { Music, Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Volume1, X } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  YouTube IFrame API type declarations                               */
@@ -371,7 +372,7 @@ export default function MusicView() {
                       loading="lazy"
                     />
                   ) : (
-                    <span className="view-card-no-img">&#127925;</span>
+                    <span className="view-card-no-img"><Music size={24} color="#3A3A45" /></span>
                   )}
                   {pack.showcaseVideo && (
                     <span
@@ -386,7 +387,7 @@ export default function MusicView() {
                         color: "#fff",
                       }}
                     >
-                      &#9654; Preview
+                      <Play size={10} style={{ display: "inline", verticalAlign: "middle", marginRight: 2 }} /> Preview
                     </span>
                   )}
                 </div>
@@ -406,8 +407,8 @@ export default function MusicView() {
             bottom: 0,
             left: 0,
             right: 0,
-            background: "#1a1a2e",
-            borderTop: "1px solid rgba(255,255,255,0.1)",
+            background: "#0D0D0F",
+            borderTop: "1px solid #2A2A33",
             zIndex: 50,
           }}
         >
@@ -418,7 +419,7 @@ export default function MusicView() {
                 textAlign: "center",
                 padding: "6px 0 0",
                 fontSize: 12,
-                color: "#6B6B7B",
+                color: "#6B6B78",
               }}
             >
               No preview available
@@ -444,7 +445,7 @@ export default function MusicView() {
                     height: "100%",
                   }}
                 >
-                  &#127925;
+                  <Music size={20} color="#6B6B78" />
                 </span>
               )}
             </div>
@@ -460,7 +461,7 @@ export default function MusicView() {
             {/* Controls */}
             <div className="player-controls">
               <button onClick={handlePrev} title="Previous">
-                &#9198;
+                <SkipBack size={18} />
               </button>
               {selectedTrack.showcaseVideo ? (
                 <button
@@ -468,7 +469,7 @@ export default function MusicView() {
                   onClick={togglePlay}
                   title={isPlaying ? "Pause" : "Play"}
                 >
-                  {isPlaying ? "\u23F8" : "\u25B6"}
+                  {isPlaying ? <Pause size={16} /> : <Play size={16} />}
                 </button>
               ) : (
                 <button
@@ -476,11 +477,11 @@ export default function MusicView() {
                   title="No preview available"
                   style={{ opacity: 0.4, cursor: "default" }}
                 >
-                  &#9654;
+                  <Play size={16} />
                 </button>
               )}
               <button onClick={handleNext} title="Next">
-                &#9197;
+                <SkipForward size={18} />
               </button>
             </div>
 
@@ -507,7 +508,7 @@ export default function MusicView() {
             {/* Volume */}
             <div className="player-volume">
               <span className="player-volume-icon">
-                {volume === 0 ? "\uD83D\uDD07" : volume < 50 ? "\uD83D\uDD09" : "\uD83D\uDD0A"}
+                {volume === 0 ? <VolumeX size={14} /> : volume < 50 ? <Volume1 size={14} /> : <Volume2 size={14} />}
               </span>
               <input
                 type="range"
@@ -525,7 +526,7 @@ export default function MusicView() {
               onClick={handleClose}
               title="Close"
             >
-              &#10005;
+              <X size={16} />
             </button>
           </div>
         </div>
