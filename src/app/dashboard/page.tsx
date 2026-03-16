@@ -85,9 +85,13 @@ export default function DashboardPage() {
   /* Loading */
   if (status === "loading") {
     return (
-      <div className="dashboard-gate">
-        <div className="dashboard-spinner" />
-        <p style={{ color: "#71717a" }}>Loading...</p>
+      <div className="landing-root">
+        <div className="hero">
+          <div className="hero-content">
+            <div className="dashboard-spinner" />
+            <p style={{ color: "#71717a", marginTop: "1rem" }}>Loading...</p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -95,17 +99,32 @@ export default function DashboardPage() {
   /* Not signed in */
   if (!session) {
     return (
-      <div className="dashboard-gate">
-        <h1 className="dashboard-gate-title">
-          <span style={{ color: "#fff" }}>Crystal</span>
-          <span className="gradient-text">line</span>
-        </h1>
-        <p style={{ color: "#71717a", marginBottom: "2rem" }}>
-          Sign in with Discord to access the dashboard.
-        </p>
-        <button onClick={() => signIn("discord")} className="login-button">
-          Login with Discord
-        </button>
+      <div className="landing-root">
+        <div className="bg-grid-wrap">
+          <div className="bg-overlay" />
+        </div>
+        <header className="pill-header">
+          <nav className="pill-nav">
+            <div className="nav-logo">
+              <a href="/" className="nav-logo-link">Crystal<span className="accent">line</span></a>
+            </div>
+            <ul className="nav-links">
+              <li><a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer">Discord</a></li>
+              <li><a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li className="hide-mobile"><a href="/about">About</a></li>
+              <li className="hide-mobile"><a href="/community">Community</a></li>
+            </ul>
+          </nav>
+        </header>
+        <div className="hero">
+          <div className="hero-content">
+            <h1>Crystal<span className="gradient">line</span></h1>
+            <p className="subtitle">Sign in with Discord to access the dashboard.</p>
+            <button onClick={() => signIn("discord", { callbackUrl: "/dashboard" })} className="cta" style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}>
+              LOGIN WITH DISCORD
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -116,21 +135,37 @@ export default function DashboardPage() {
 
   if (!hasAccess) {
     return (
-      <div className="dashboard-gate">
-        <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🚫</div>
-        <h1 className="dashboard-gate-title" style={{ fontSize: "1.75rem" }}>
-          Access Denied
-        </h1>
-        <p style={{ color: "#71717a", maxWidth: 420, textAlign: "center", lineHeight: 1.6, marginBottom: "2rem" }}>
-          You need the Crystaliline role to access this dashboard. Join our Discord server to get the role.
-        </p>
-        <div style={{ display: "flex", gap: "1rem" }}>
-          <a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer" className="login-button" style={{ fontSize: "0.95rem", padding: "0.75rem 1.75rem" }}>
-            Join Discord
-          </a>
-          <button onClick={() => signOut()} className="logout-button">
-            Sign Out
-          </button>
+      <div className="landing-root">
+        <div className="bg-grid-wrap">
+          <div className="bg-overlay" />
+        </div>
+        <header className="pill-header">
+          <nav className="pill-nav">
+            <div className="nav-logo">
+              <a href="/" className="nav-logo-link">Crystal<span className="accent">line</span></a>
+            </div>
+            <ul className="nav-links">
+              <li><a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer">Discord</a></li>
+              <li><a href="https://github.com/skids-zj71" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            </ul>
+          </nav>
+        </header>
+        <div className="hero">
+          <div className="hero-content">
+            <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🔒</div>
+            <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Access <span className="gradient">Denied</span></h1>
+            <p className="subtitle" style={{ maxWidth: "420px", margin: "0.5rem auto 2rem" }}>
+              You need the Crystaliline role to access the dashboard. Join our Discord server to get the role.
+            </p>
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+              <a href="https://discord.gg/crystaliline" target="_blank" rel="noopener noreferrer" className="cta" style={{ textDecoration: "none" }}>
+                JOIN DISCORD
+              </a>
+              <button onClick={() => signOut({ callbackUrl: "/" })} className="cta" style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", cursor: "pointer", fontFamily: "inherit" }}>
+                SIGN OUT
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
