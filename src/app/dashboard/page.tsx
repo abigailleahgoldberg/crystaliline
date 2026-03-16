@@ -5,6 +5,16 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Navbar from "@/components/Navbar";
 import BackgroundGrid from "@/components/BackgroundGrid";
 import AssetBrowser from "@/components/AssetBrowser";
+import SkinsView from "@/components/dashboard/SkinsView";
+import MapsView from "@/components/dashboard/MapsView";
+import ToolsView from "@/components/dashboard/ToolsView";
+import ChatView from "@/components/dashboard/ChatView";
+import DownloadsView from "@/components/dashboard/DownloadsView";
+import GalleryView from "@/components/dashboard/GalleryView";
+import SoundboardView from "@/components/dashboard/SoundboardView";
+import MusicView from "@/components/dashboard/MusicView";
+import SettingsView from "@/components/dashboard/SettingsView";
+import HelpView from "@/components/dashboard/HelpView";
 
 const REQUIRED_ROLE = "1482915649142653080";
 
@@ -176,6 +186,86 @@ export default function DashboardPage() {
       ? `#${user.discriminator}`
       : `@${user.name}`;
 
+  const homeContent = (
+    <main className="dashboard-main">
+      <div className="dashboard-content-header">
+        <h1 className="dashboard-content-title">
+          <span style={{ color: "#fff" }}>Crystal</span>
+          <span className="gradient-text">line</span>
+        </h1>
+        <div className="social-pills">
+          {SOCIAL_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target={link.href.startsWith("http") ? "_blank" : undefined}
+              rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="social-pill"
+            >
+              <span>{link.icon}</span>
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+      <section className="dashboard-section">
+        <h2 className="dashboard-section-title">News &amp; Updates</h2>
+        <div className="news-grid">
+          {NEWS_CARDS.map((card) => (
+            <div key={card.title} className="news-card">
+              <div className="news-card-image" style={{ background: card.gradient }} />
+              <div className="news-card-body">
+                <div className="news-card-meta">
+                  <span className={`card-tag ${card.tag === "UPDATE" ? "update" : "news"}`}>
+                    {card.tag}
+                  </span>
+                  <span className="news-card-date">{card.date}</span>
+                </div>
+                <h3 className="news-card-title">{card.title}</h3>
+                <p className="news-card-desc">{card.desc}</p>
+              </div>
+              <span className="news-card-arrow">→</span>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="dashboard-section">
+        <h2 className="dashboard-section-title">Featured Mods</h2>
+        <div className="featured-grid">
+          {FEATURED_CARDS.map((card) => (
+            <div key={card.title} className="featured-card">
+              <div className="featured-card-image" style={{ background: card.gradient }} />
+              <div className="featured-card-body">
+                <h3 className="featured-card-title">{card.title}</h3>
+                <p className="featured-card-author">by {card.author}</p>
+              </div>
+              <span className="featured-card-link">🔗</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+
+  function renderView(view: string) {
+    switch (view) {
+      case "assets": return <AssetBrowser />;
+      case "skins": return <SkinsView />;
+      case "maps": return <MapsView />;
+      case "tools": return <ToolsView />;
+      case "chat": return <ChatView />;
+      case "downloads": return <DownloadsView />;
+      case "gallery": return <GalleryView />;
+      case "soundboard": return <SoundboardView />;
+      case "music": return <MusicView />;
+      case "settings": return <SettingsView />;
+      case "help": return <HelpView />;
+      case "home":
+      case "news":
+      default: return homeContent;
+    }
+  }
+
   return (
     <div className="dashboard-wrapper">
       <div className="dashboard-layout">
@@ -241,73 +331,7 @@ export default function DashboardPage() {
       </aside>
 
       {/* ── MAIN CONTENT ── */}
-      {activeView === "assets" ? (
-        <AssetBrowser />
-      ) : (
-        <main className="dashboard-main">
-          {/* Header */}
-          <div className="dashboard-content-header">
-            <h1 className="dashboard-content-title">
-              <span style={{ color: "#fff" }}>Crystal</span>
-              <span className="gradient-text">line</span>
-            </h1>
-            <div className="social-pills">
-              {SOCIAL_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target={link.href.startsWith("http") ? "_blank" : undefined}
-                  rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="social-pill"
-                >
-                  <span>{link.icon}</span>
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* News & Updates */}
-          <section className="dashboard-section">
-            <h2 className="dashboard-section-title">News &amp; Updates</h2>
-            <div className="news-grid">
-              {NEWS_CARDS.map((card) => (
-                <div key={card.title} className="news-card">
-                  <div className="news-card-image" style={{ background: card.gradient }} />
-                  <div className="news-card-body">
-                    <div className="news-card-meta">
-                      <span className={`card-tag ${card.tag === "UPDATE" ? "update" : "news"}`}>
-                        {card.tag}
-                      </span>
-                      <span className="news-card-date">{card.date}</span>
-                    </div>
-                    <h3 className="news-card-title">{card.title}</h3>
-                    <p className="news-card-desc">{card.desc}</p>
-                  </div>
-                  <span className="news-card-arrow">→</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Featured Mods */}
-          <section className="dashboard-section">
-            <h2 className="dashboard-section-title">Featured Mods</h2>
-            <div className="featured-grid">
-              {FEATURED_CARDS.map((card) => (
-                <div key={card.title} className="featured-card">
-                  <div className="featured-card-image" style={{ background: card.gradient }} />
-                  <div className="featured-card-body">
-                    <h3 className="featured-card-title">{card.title}</h3>
-                    <p className="featured-card-author">by {card.author}</p>
-                  </div>
-                  <span className="featured-card-link">🔗</span>
-                </div>
-              ))}
-            </div>
-          </section>
-        </main>
-      )}
+      {renderView(activeView)}
     </div>
     </div>
   );
