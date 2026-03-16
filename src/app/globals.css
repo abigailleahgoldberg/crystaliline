@@ -3187,3 +3187,78 @@ html, body {
     flex-direction: column;
   }
 }
+
+/* ── Soundboard: volume row ── */
+.soundboard-volume-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0 0.75rem;
+}
+
+.soundboard-volume-label {
+  font-size: 13px;
+  color: #a1a1aa;
+  white-space: nowrap;
+}
+
+.soundboard-volume-value {
+  font-size: 13px;
+  color: #FF8C00;
+  min-width: 3ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.soundboard-volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 160px;
+  height: 6px;
+  border-radius: 3px;
+  background: #2a2a3e;
+  outline: none;
+  cursor: pointer;
+}
+
+.soundboard-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #FF8C00;
+  border: 2px solid #FFB347;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.soundboard-volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.soundboard-volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #FF8C00;
+  border: 2px solid #FFB347;
+  cursor: pointer;
+}
+
+/* ── Soundboard: playing glow ── */
+.view-sound-btn.playing {
+  border-color: #FF8C00;
+  box-shadow: 0 0 12px 2px rgba(255, 140, 0, 0.45), 0 0 24px 4px rgba(255, 140, 0, 0.15);
+}
+
+/* ── Soundboard: pulse animation ── */
+@keyframes soundboard-pulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.view-sound-btn.pulse {
+  animation: soundboard-pulse 0.35s ease-out;
+}
