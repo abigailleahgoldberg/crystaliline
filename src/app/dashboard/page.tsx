@@ -119,7 +119,7 @@ export default function DashboardPage() {
   if (!session) {
     return (
       <div className="landing-root">
-        <BackgroundGrid />
+        
         <Navbar />
         <div className="hero">
           <div className="hero-content">
@@ -141,7 +141,7 @@ export default function DashboardPage() {
   if (!hasAccess) {
     return (
       <div className="landing-root">
-        <BackgroundGrid />
+        
         <Navbar />
         <div className="hero">
           <div className="hero-content">
